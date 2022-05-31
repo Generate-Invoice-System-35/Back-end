@@ -13,5 +13,5 @@ type AdapterUserService interface {
 	GetAllUsersService() []model.User
 	GetUserByIDService(id int) (model.User, error)
 	UpdateUserByIDService(id int, user model.User) error
-	DeleteUserByIdService(id int) error
+	DeleteUserByIDService(id int) error
 }

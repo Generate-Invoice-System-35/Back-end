@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 
 	"Back-end/config"
+	"Back-end/internal/model"
 )
 
 func InitDB(conf config.Config) *gorm.DB {
@@ -28,5 +29,5 @@ func InitDB(conf config.Config) *gorm.DB {
 }
 
 func initMigrate(db *gorm.DB) {
-
+	db.AutoMigrate(&model.User{})
 }

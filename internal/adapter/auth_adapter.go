@@ -1,13 +1,15 @@
 package adapter
 
-import "Back-end/internal/model"
+import (
+	"Back-end/internal/model"
+)
 
 type AdapterAuthRepository interface {
-	Register(user model.User, card model.Card) error
-	Login(email string, password string) (string, int)
+	Register(user model.User) error
+	Login(username string) (user model.User, err error)
 }
 
 type AdapterAuthService interface {
-	RegisterService(user model.User, card model.Card) error
-	LoginService(email string, password string) (string, int)
+	RegisterService(user model.User) error
+	LoginService(username string, password string) (string, int)
 }
