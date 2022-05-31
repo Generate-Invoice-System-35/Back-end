@@ -54,10 +54,10 @@ func (ce *EchoAuthController) RegisterController(c echo.Context) error {
 // @Failure      401   {object}  model.User
 // @Failure      500   {object}  model.User
 func (ce *EchoAuthController) LoginController(c echo.Context) error {
-	userLogin := make(map[string]interface{})
+	userLogin := model.User{}
 	c.Bind(&userLogin)
 
-	token, statusCode := ce.Service.LoginService(userLogin["username"].(string), userLogin["password"].(string))
+	token, statusCode := ce.Service.LoginService(userLogin.Username, userLogin.Password)
 	switch statusCode {
 	case http.StatusUnauthorized:
 		return c.JSONPretty(http.StatusUnauthorized, map[string]interface{}{
