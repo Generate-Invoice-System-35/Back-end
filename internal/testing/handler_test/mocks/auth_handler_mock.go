@@ -10,7 +10,7 @@ type MockAuthService struct {
 	mock.Mock
 }
 
-func (r *MockAuthService) RegisterService(user model.User) error {
+func (r *MockAuthService) RegisterService(user model.User) (error, int) {
 	ret := r.Called(user)
 
 	var err error
@@ -20,7 +20,14 @@ func (r *MockAuthService) RegisterService(user model.User) error {
 		err = ret.Error(0)
 	}
 
-	return err
+	var status int
+	if res, ok := ret.Get(1).(func(model.User) int); ok {
+		status = res(user)
+	} else {
+		status = ret.Get(1).(int)
+	}
+
+	return err, status
 }
 
 func (r *MockAuthService) LoginService(username string, password string) (string, int) {

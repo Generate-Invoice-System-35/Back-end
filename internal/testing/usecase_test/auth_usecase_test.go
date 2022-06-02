@@ -24,19 +24,23 @@ func TestRegisterService(t *testing.T) {
 
 	t.Run("Success", func(t *testing.T) {
 		repo.On("Register", mock.Anything).Return(nil).Once()
+		repo.On("UsernameExists", mock.Anything).Return(userData, nil).Once()
 
 		svc := usecase.NewServiceAuth(&repo, config.Config{})
-		Err := svc.RegisterService(userData)
+		Err, Status := svc.RegisterService(userData)
 
+		assert.Equal(t, 200, Status)
 		assert.NoError(t, Err)
 	})
 
-	t.Run("Failed", func(t *testing.T) {
+	t.Run("Failed Expectation Failed", func(t *testing.T) {
 		repo.On("Register", mock.Anything).Return(errors.New("Failed Register")).Once()
+		repo.On("UsernameExists", mock.Anything).Return(userData, errors.New("Failed Username Exist")).Once()
 
 		svc := usecase.NewServiceAuth(&repo, config.Config{})
-		Err := svc.RegisterService(userData)
+		Err, Status := svc.RegisterService(userData)
 
+		assert.Equal(t, 417, Status)
 		assert.Error(t, Err)
 	})
 }

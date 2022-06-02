@@ -28,17 +28,22 @@ func (ce *EchoAuthController) RegisterController(c echo.Context) error {
 	user := model.User{}
 	c.Bind(&user)
 
-	err := ce.Service.RegisterService(user)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+	err, statusCode := ce.Service.RegisterService(user)
+	switch statusCode {
+	case http.StatusExpectationFailed:
+		return c.JSONPretty(http.StatusExpectationFailed, map[string]interface{}{
+			"messages": "username exist",
+		}, " ")
+	case http.StatusInternalServerError:
+		return c.JSONPretty(http.StatusInternalServerError, map[string]interface{}{
 			"messages": err.Error(),
-		})
+		}, " ")
 	}
 
-	return c.JSON(http.StatusCreated, map[string]interface{}{
+	return c.JSONPretty(http.StatusCreated, map[string]interface{}{
 		"messages": "success",
 		"users":    user,
-	})
+	}, " ")
 }
 
 // LoginController godoc
@@ -61,7 +66,7 @@ func (ce *EchoAuthController) LoginController(c echo.Context) error {
 	switch statusCode {
 	case http.StatusUnauthorized:
 		return c.JSONPretty(http.StatusUnauthorized, map[string]interface{}{
-			"messages": "username atau password salah",
+			"messages": "wrong username or password",
 		}, " ")
 	case http.StatusInternalServerError:
 		return c.JSONPretty(http.StatusInternalServerError, map[string]interface{}{

@@ -23,6 +23,26 @@ func (r *MockAuthRepository) Register(user model.User) error {
 	return err
 }
 
+func (r *MockAuthRepository) UsernameExists(username string) (model.User, error) {
+	ret := r.Called(username)
+
+	var user model.User
+	if res, ok := ret.Get(0).(func(string) model.User); ok {
+		user = res(username)
+	} else {
+		user = ret.Get(0).(model.User)
+	}
+
+	var err error
+	if res, ok := ret.Get(1).(func(string) error); ok {
+		err = res(username)
+	} else {
+		err = ret.Error(1)
+	}
+
+	return user, err
+}
+
 func (r *MockAuthRepository) Login(username string) (model.User, error) {
 	ret := r.Called(username)
 

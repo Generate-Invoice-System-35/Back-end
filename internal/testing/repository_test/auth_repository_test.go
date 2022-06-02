@@ -42,6 +42,26 @@ func TestRegister(t *testing.T) {
 	assert.True(t, true)
 }
 
+func UsernameExists(t *testing.T) {
+	dbMock, fMock, _ := sqlmock.New()
+	dial := mysql.Dialector{&mysql.Config{
+		Conn:                      dbMock,
+		SkipInitializeWithVersion: true,
+	}}
+	db, _ := gorm.Open(dial)
+	repo := repository.NewMysqlAuthRepository(db)
+	defer dbMock.Close()
+
+	fMock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `users`")).
+		WillReturnRows(sqlmock.NewRows([]string{"id", "username", "password"}).
+			AddRow(1, "maderahano", "123456"))
+
+	res, err := repo.UsernameExists("maderahano")
+	assert.Equal(t, res.Username, "maderahano")
+	assert.Error(t, err)
+	assert.True(t, true)
+}
+
 func TestLogin(t *testing.T) {
 	dbMock, fMock, _ := sqlmock.New()
 	dial := mysql.Dialector{&mysql.Config{
