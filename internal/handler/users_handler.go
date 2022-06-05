@@ -34,8 +34,8 @@ func (ce *EchoUserController) GetUsersController(c echo.Context) error {
 }
 
 // GetUserController godoc
-// @Summary      Get User By Id
-// @Description  Admin Can Get User Information By Id
+// @Summary      Get User by Id
+// @Description  Admin can get user information by id
 // @Tags         User
 // @accept       json
 // @Produce      json
@@ -48,7 +48,7 @@ func (ce *EchoUserController) GetUserController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
 
-	res, err := ce.Service.GetUserByIDService(intID)
+	user, err := ce.Service.GetUserByIDService(intID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
 			"messages": "no id",
@@ -57,13 +57,13 @@ func (ce *EchoUserController) GetUserController(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"messages": "success",
-		"users":    res,
+		"user":     user,
 	})
 }
 
 // UpdateUserController godoc
 // @Summary      Update User
-// @Description  User can Update their status or information
+// @Description  User can update their status or information
 // @Tags         User
 // @accept       json
 // @Produce      json
@@ -90,12 +90,13 @@ func (ce *EchoUserController) UpdateUserController(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"messages": "edited",
 		"id":       intID,
+		"user":     user,
 	})
 }
 
 // DeleteUsercontroller godoc
 // @Summary      Delete User
-// @Description  Admin or User can Delete their own account
+// @Description  Admin or User can delete their own account
 // @Tags         User
 // @accept       json
 // @Produce      json

@@ -22,7 +22,7 @@ func TestRegisterController(t *testing.T) {
 
 	t.Run("Success", func(t *testing.T) {
 		service.On("RegisterService", mock.Anything).
-			Return(nil, 201).Once()
+			Return(201, nil).Once()
 
 		r := httptest.NewRequest("POST", "/register", nil)
 		w := httptest.NewRecorder()
@@ -38,7 +38,7 @@ func TestRegisterController(t *testing.T) {
 
 	t.Run("Failed Expectation Failed", func(t *testing.T) {
 		service.On("RegisterService", mock.Anything).
-			Return(errors.New("Failed Register Controller"), 417).Once()
+			Return(417, errors.New("Failed Register Controller")).Once()
 
 		r := httptest.NewRequest("POST", "/register", nil)
 		w := httptest.NewRecorder()

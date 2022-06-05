@@ -16,10 +16,10 @@ type serviceAuth struct {
 	repo adapter.AdapterAuthRepository
 }
 
-func (s *serviceAuth) RegisterService(user model.User) (error, int) {
+func (s *serviceAuth) RegisterService(user model.User) (int, error) {
 	_, errUsername := s.repo.UsernameExists(user.Username)
 	if errUsername != nil {
-		return errUsername, http.StatusExpectationFailed
+		return http.StatusExpectationFailed, errUsername
 	}
 
 	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
@@ -27,10 +27,10 @@ func (s *serviceAuth) RegisterService(user model.User) (error, int) {
 
 	errRegister := s.repo.Register(user)
 	if errRegister != nil {
-		return errRegister, http.StatusInternalServerError
+		return http.StatusInternalServerError, errRegister
 	}
 
-	return nil, http.StatusOK
+	return http.StatusOK, nil
 }
 
 func (s *serviceAuth) LoginService(username string, password string) (string, int) {
