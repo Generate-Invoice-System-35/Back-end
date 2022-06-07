@@ -11,6 +11,6 @@ type AdapterAuthRepository interface {
 }
 
 type AdapterAuthService interface {
-	RegisterService(user model.User) (error, int)
+	RegisterService(user model.User) (int, error)
 	LoginService(username string, password string) (string, int)
 }

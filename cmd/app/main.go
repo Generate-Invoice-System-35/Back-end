@@ -27,6 +27,9 @@ func main() {
 
 	rest.RegisterAuthGroupAPI(e, config)
 	rest.RegisterUserGroupAPI(e, config)
+	rest.RegisterInvoiceGroupAPI(e, config)
+	rest.RegisterInvoiceItemGroupAPI(e, config)
+	rest.RegisterInvoicePaymentStatusGroupAPI(e, config)
 
 	e.GET("/swagger/*", echoSwag.WrapHandler)
 	docs.SwaggerInfo.Host = os.Getenv("APP_HOST")

@@ -21,14 +21,14 @@ type EchoAuthController struct {
 // @Produce      json
 // @Router       /register [post]
 // @param        data  body      model.User  true  "required"
-// @Success      200   {object}  model.User
+// @Success      201   {object}  model.User
 // @Failure      400   {object}  model.User
 // @Failure      500   {object}  model.User
 func (ce *EchoAuthController) RegisterController(c echo.Context) error {
 	user := model.User{}
 	c.Bind(&user)
 
-	err, statusCode := ce.Service.RegisterService(user)
+	statusCode, err := ce.Service.RegisterService(user)
 	switch statusCode {
 	case http.StatusExpectationFailed:
 		return c.JSONPretty(http.StatusExpectationFailed, map[string]interface{}{
