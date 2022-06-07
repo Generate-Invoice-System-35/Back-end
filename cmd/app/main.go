@@ -27,6 +27,7 @@ func main() {
 
 	rest.RegisterAuthGroupAPI(e, config)
 	rest.RegisterUserGroupAPI(e, config)
+	rest.RegisterUploadGroupAPI(e, config)
 	rest.RegisterInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceItemGroupAPI(e, config)
 	rest.RegisterInvoicePaymentStatusGroupAPI(e, config)
