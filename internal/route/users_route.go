@@ -37,5 +37,4 @@ func RegisterUserGroupAPI(e *echo.Echo, conf config.Config) {
 	apiUser.GET("/:id", hand.GetUserController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiUser.PUT("/:id", hand.UpdateUserController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiUser.DELETE("/:id", hand.DeleteUsercontroller, middleware.JWT([]byte(conf.JWT_KEY)))
-
 }

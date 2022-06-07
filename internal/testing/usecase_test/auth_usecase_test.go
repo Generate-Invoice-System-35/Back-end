@@ -27,7 +27,7 @@ func TestRegisterService(t *testing.T) {
 		repo.On("UsernameExists", mock.Anything).Return(userData, nil).Once()
 
 		svc := usecase.NewServiceAuth(&repo, config.Config{})
-		Err, Status := svc.RegisterService(userData)
+		Status, Err := svc.RegisterService(userData)
 
 		assert.Equal(t, 200, Status)
 		assert.NoError(t, Err)
@@ -38,7 +38,7 @@ func TestRegisterService(t *testing.T) {
 		repo.On("UsernameExists", mock.Anything).Return(userData, errors.New("Failed Username Exist")).Once()
 
 		svc := usecase.NewServiceAuth(&repo, config.Config{})
-		Err, Status := svc.RegisterService(userData)
+		Status, Err := svc.RegisterService(userData)
 
 		assert.Equal(t, 417, Status)
 		assert.Error(t, Err)
