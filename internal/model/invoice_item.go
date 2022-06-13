@@ -6,7 +6,7 @@ type InvoiceItem struct {
 	Product    string  `json:"product" form:"product"`
 	Label      string  `json:"label" form:"label"`
 	Qty        int     `json:"qty" form:"qty"`
-	Price      float32 `json:"price" form:"price"`
+	Rate       float32 `json:"rate" form:"rate"`
 	Tax        float32 `json:"tax" form:"tax"`
 	Subtotal   float32 `json:"subtotal" form:"subtotal"`
 }

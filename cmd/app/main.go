@@ -25,9 +25,12 @@ func main() {
 	config := conf.InitConfig()
 	e := echo.New()
 
+	e.Static("storage", "storage")
+
 	rest.RegisterAuthGroupAPI(e, config)
 	rest.RegisterUserGroupAPI(e, config)
-	rest.RegisterUploadGroupAPI(e, config)
+	rest.RegisterUploadImageGroupAPI(e, config)
+	rest.RegisterGenerateInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceItemGroupAPI(e, config)
 	rest.RegisterInvoicePaymentStatusGroupAPI(e, config)
