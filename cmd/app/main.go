@@ -30,6 +30,7 @@ func main() {
 	rest.RegisterUploadGroupAPI(e, config)
 	rest.RegisterInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceItemGroupAPI(e, config)
+	rest.RegisterSendCustomerGroupAPI(e, config)
 	rest.RegisterInvoicePaymentStatusGroupAPI(e, config)
 
 	e.GET("/swagger/*", echoSwag.WrapHandler)

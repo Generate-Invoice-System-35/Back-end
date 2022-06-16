@@ -17,7 +17,7 @@ func InitConfig() Config {
 		SERVER_ADDRESS: GetOrDefault("SERVER_ADDRESS", "0.0.0.0:8888"),
 		DB_USERNAME:    GetOrDefault("DB_USERNAME", "root"),
 		DB_PASSWORD:    GetOrDefault("DB_PASSWORD", ""),
-		DB_NAME:        GetOrDefault("DB_NAME", "generate-invoice"),
+		DB_NAME:        GetOrDefault("DB_NAME", "generate_invoice"),
 		DB_PORT:        GetOrDefault("DB_PORT", "3306"),
 		DB_HOST:        GetOrDefault("DB_HOST", "127.0.0.1"),
 		JWT_KEY:        GetOrDefault("JWT_KEY", "AlphaWolf"),
