@@ -1,39 +1,39 @@
-version: "3"
+version: "3.8"
 
 services:
-  # mongo:
-  #   image: "mongo:latest"
-  #   restart: always
-  #   ports:
-  #     - "27017:27017"
-  #   environment:
-  #     - MONGO_INITDB_ROOT_USERNAME={MONGO_USERNAME}
-  #     - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
-  # redis:
-  #   image: "redis:latest"
-  #   restart: always
-  #   depends_on:
-  #     - mongo
-  #   ports:
-  #     - "6379:6379"
-  db:
-    container_name: generate-invoice-database-mysql
-    image: "mysql:latest"
-    restart: always
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_USER=${DB_USERNAME}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
-  app:
+  backend-app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: server
-    depends_on:
-      - db
+    container_name: generate_invoices
+    restart: unless-stopped
+    tty: true
     ports:
-      - "8081:8081"
-    links:
-      - "mysql"
+      - "80:8888"
+    networks:
+      - invoices-network
+  mysql:
+    image: mysql:latest
+    container_name: generate_invoice_database_mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: generate_invoices 
+      # MYSQL_USER: root
+      # MYSQL_PASSWORD: root
+    volumes:
+      - invoices-data:/var/lib/mysql
+      # - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - invoices-network
+
+networks:
+  invoices-network:
+    driver: bridge
+
+volumes:
+  invoices-data:
+    driver: local

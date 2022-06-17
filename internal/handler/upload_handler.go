@@ -98,7 +98,7 @@ func (ce *EchoUploadImageController) UploadImageController(c echo.Context) error
 	defer dst.Close()
 
 	// Copy
-	if _, errCopy := io.Copy(dst, src); err != nil {
+	if _, errCopy := io.Copy(dst, src); err != errCopy {
 		return errCopy
 	}
 
