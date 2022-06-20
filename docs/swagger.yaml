@@ -1,4 +1,56 @@
 definitions:
+  model.File:
+    properties:
+      file_name:
+        type: string
+      file_size:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  model.Invoice:
+    properties:
+      buyer_name:
+        type: string
+      due_date:
+        type: string
+      id:
+        type: integer
+      id_payment_status:
+        type: integer
+      invoice_date:
+        type: string
+      number:
+        type: string
+    type: object
+  model.InvoiceItem:
+    properties:
+      id:
+        type: integer
+      id_invoice:
+        type: integer
+      label:
+        type: string
+      product:
+        type: string
+      qty:
+        type: integer
+      rate:
+        type: number
+      subtotal:
+        type: number
+      tax:
+        type: number
+    type: object
+  model.InvoicePaymentStatus:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   model.User:
     properties:
       created_at:
@@ -19,6 +71,421 @@ info:
   title: Generate Invoice System API Documentation
   version: "2.0"
 paths:
+  /generate:
+    post:
+      consumes:
+      - application/json
+      description: User can generate invoice file format csv of excel for sent to
+        the client
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Invoice'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Invoice'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Invoice'
+      summary: Generate Invoices
+      tags:
+      - Invoice
+  /invoice:
+    get:
+      consumes:
+      - application/json
+      description: User can get all invoices information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Invoice'
+      security:
+      - JWT: []
+      summary: Get All Invoice Information
+      tags:
+      - Invoice
+    post:
+      consumes:
+      - application/json
+      description: User can create invoice for sent to the client
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Invoice'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Invoice'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Invoice'
+      security:
+      - JWT: []
+      summary: Create Invoice
+      tags:
+      - Invoice
+  /invoice-item:
+    get:
+      consumes:
+      - application/json
+      description: User can get all invoices item information that has been created
+        from user itself
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+      security:
+      - JWT: []
+      summary: Get All Invoice Item Information
+      tags:
+      - Invoice Item
+    post:
+      consumes:
+      - application/json
+      description: User can create invoice item for the detail of invoice
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.InvoiceItem'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+      security:
+      - JWT: []
+      summary: Create Invoice Item
+      tags:
+      - Invoice Item
+  /invoice-item/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: User can delete invoice item information if they want it
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+      security:
+      - JWT: []
+      summary: Delete Invoice Item Information
+      tags:
+      - Invoice Item
+    get:
+      consumes:
+      - application/json
+      description: User can get invoice item information by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+      security:
+      - JWT: []
+      summary: Get Invoice Item Information by Id
+      tags:
+      - Invoice Item
+    put:
+      consumes:
+      - application/json
+      description: User can update invoice item information
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.InvoiceItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+      security:
+      - JWT: []
+      summary: Update Invoice Item Information
+      tags:
+      - Invoice Item
+  /invoice-payment-status:
+    get:
+      consumes:
+      - application/json
+      description: Admin can get all invoices payment status information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.InvoicePaymentStatus'
+      security:
+      - JWT: []
+      summary: Get All Invoice Payment Status Information
+      tags:
+      - Invoice Payment Status
+    post:
+      consumes:
+      - application/json
+      description: Admin can create invoice payment for table invoice
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.InvoicePaymentStatus'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.InvoicePaymentStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.InvoicePaymentStatus'
+      security:
+      - JWT: []
+      summary: Create Invoice Payment Status
+      tags:
+      - Invoice Payment Status
+  /invoice-payment-status/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Admin can delete invoice payment status information
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.InvoicePaymentStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.InvoicePaymentStatus'
+      security:
+      - JWT: []
+      summary: Delete Invoice Payment Status Information
+      tags:
+      - Invoice Payment Status
+    get:
+      consumes:
+      - application/json
+      description: Admin can get invoice payment status information by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.InvoicePaymentStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.InvoicePaymentStatus'
+      security:
+      - JWT: []
+      summary: Get Invoice Payment Status Information by Id
+      tags:
+      - Invoice Payment Status
+    put:
+      consumes:
+      - application/json
+      description: User can update invoice payment status information
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.InvoicePaymentStatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.InvoicePaymentStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.InvoicePaymentStatus'
+      security:
+      - JWT: []
+      summary: Update Invoice Payment Status Information
+      tags:
+      - Invoice Payment Status
+  /invoice/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: User can delete invoice information if they want it
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Invoice'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Invoice'
+      security:
+      - JWT: []
+      summary: Delete Invoice Information
+      tags:
+      - Invoice
+    get:
+      consumes:
+      - application/json
+      description: User can get invoice information by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Invoice'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.Invoice'
+      security:
+      - JWT: []
+      summary: Get Invoice Information by Id
+      tags:
+      - Invoice
+    put:
+      consumes:
+      - application/json
+      description: User can update invoice information
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Invoice'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Invoice'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Invoice'
+      security:
+      - JWT: []
+      summary: Update Invoice Information
+      tags:
+      - Invoice
   /login:
     post:
       consumes:
@@ -68,8 +535,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/model.User'
         "400":
@@ -83,6 +550,125 @@ paths:
       summary: Register User
       tags:
       - User
+  /upload-image:
+    get:
+      consumes:
+      - application/json
+      description: User can get all images information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.File'
+      summary: Get All Images Information
+      tags:
+      - File
+    post:
+      consumes:
+      - application/json
+      description: User can upload image
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.File'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.File'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.File'
+      summary: Upload Image
+      tags:
+      - File
+  /upload-image/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: User can delete image information if they want it
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.File'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.File'
+      summary: Delete Image Information
+      tags:
+      - File
+    get:
+      consumes:
+      - application/json
+      description: User can get image information by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.File'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.File'
+      summary: Get Image Information by Id
+      tags:
+      - File
+    put:
+      consumes:
+      - application/json
+      description: User can update image information
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.File'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.File'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.File'
+      summary: Update Image Information
+      tags:
+      - File
   /user:
     get:
       consumes:
@@ -108,7 +694,7 @@ paths:
     delete:
       consumes:
       - application/json
-      description: Admin or User can Delete their own account
+      description: Admin or User can delete their own account
       parameters:
       - description: id
         in: path
@@ -138,7 +724,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Admin Can Get User Information By Id
+      description: Admin can get user information by id
       parameters:
       - description: id
         in: path
@@ -158,13 +744,13 @@ paths:
             $ref: '#/definitions/model.User'
       security:
       - JWT: []
-      summary: Get User By Id
+      summary: Get User by Id
       tags:
       - User
     put:
       consumes:
       - application/json
-      description: User can Update their status or information
+      description: User can update their status or information
       parameters:
       - description: id
         in: path

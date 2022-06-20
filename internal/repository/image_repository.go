@@ -27,18 +27,18 @@ func (r *RepositoryMysqlLayer) GetAllImages() []model.File {
 	return images
 }
 
-func (r *RepositoryMysqlLayer) GetImageByID(id int) (model.File, string, error) {
+func (r *RepositoryMysqlLayer) GetImageByID(id int) (model.File, error) {
 	var image model.File
 
 	res := r.DB.Where("id = ?", id).Find(&image)
 	if res.RowsAffected < 1 {
-		return image, "", fmt.Errorf("not found")
+		return image, fmt.Errorf("not found")
 	}
 
-	filePath := "storage/"
-	urlImage := filePath + image.File_Name
+	// filePath := "storage/"
+	// urlImage := filePath + image.File_Name
 
-	return image, urlImage, nil
+	return image, nil
 }
 
 func (r *RepositoryMysqlLayer) UpdateImage(id int, image model.File) error {

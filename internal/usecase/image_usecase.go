@@ -29,7 +29,7 @@ func (s *serviceUpload) GetAllImagesService() []model.File {
 	return s.repo.GetAllImages()
 }
 
-func (s *serviceUpload) GetImageByIDService(id int) (model.File, string, error) {
+func (s *serviceUpload) GetImageByIDService(id int) (model.File, error) {
 	return s.repo.GetImageByID(id)
 }
 

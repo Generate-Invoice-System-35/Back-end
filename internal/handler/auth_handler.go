@@ -74,8 +74,5 @@ func (ce *EchoAuthController) LoginController(c echo.Context) error {
 		}, " ")
 	}
 
-	return c.JSONPretty(http.StatusOK, map[string]interface{}{
-		"messages": "success",
-		"token":    token,
-	}, " ")
+	return c.JSONPretty(http.StatusOK, token, " ")
 }

@@ -17,7 +17,7 @@ type EchoInvoicePaymentStatusController struct {
 // CreateInvoicePaymentStatusController godoc
 // @Summary      Create Invoice Payment Status
 // @Description  Admin can create invoice payment for table invoice
-// @Tags         InvoicePaymentStatus
+// @Tags         Invoice Payment Status
 // @accept       json
 // @Produce      json
 // @Router       /invoice-payment-status [post]
@@ -45,7 +45,7 @@ func (ce *EchoInvoicePaymentStatusController) CreateInvoicePaymentStatusControll
 // GetInvoicesPaymentStatusController godoc
 // @Summary      Get All Invoice Payment Status Information
 // @Description  Admin can get all invoices payment status information
-// @Tags         InvoicePaymentStatus
+// @Tags         Invoice Payment Status
 // @accept       json
 // @Produce      json
 // @Router       /invoice-payment-status [get]
@@ -54,16 +54,13 @@ func (ce *EchoInvoicePaymentStatusController) CreateInvoicePaymentStatusControll
 func (ce *EchoInvoicePaymentStatusController) GetInvoicesPaymentStatusController(c echo.Context) error {
 	invoices_payment_status := ce.Service.GetAllInvoicesPaymentStatusService()
 
-	return c.JSONPretty(http.StatusOK, map[string]interface{}{
-		"messages":               "succcess",
-		"invoice payment status": invoices_payment_status,
-	}, " ")
+	return c.JSONPretty(http.StatusOK, invoices_payment_status, " ")
 }
 
 // GetInvoicePaymentStatusController godoc
 // @Summary      Get Invoice Payment Status Information by Id
 // @Description  Admin can get invoice payment status information by id
-// @Tags         InvoicePaymentStatus
+// @Tags         Invoice Payment Status
 // @accept       json
 // @Produce      json
 // @Router       /invoice-payment-status/{id} [get]
@@ -82,16 +79,13 @@ func (ce *EchoInvoicePaymentStatusController) GetInvoicePaymentStatusController(
 		})
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"messages":               "success",
-		"invoice payment status": invoice_payment_status,
-	})
+	return c.JSONPretty(http.StatusOK, invoice_payment_status, " ")
 }
 
 // UpdateInvoicePaymentStatusController godoc
 // @Summary      Update Invoice Payment Status Information
 // @Description  User can update invoice payment status information
-// @Tags         InvoicePaymentStatus
+// @Tags         Invoice Payment Status
 // @accept       json
 // @Produce      json
 // @Router       /invoice-payment-status/{id} [put]
@@ -124,7 +118,7 @@ func (ce *EchoInvoicePaymentStatusController) UpdateInvoicePaymentStatusControll
 // DeleteInvoicePaymentStatusController godoc
 // @Summary      Delete Invoice Payment Status Information
 // @Description  Admin can delete invoice payment status information
-// @Tags         InvoicePaymentStatus
+// @Tags         Invoice Payment Status
 // @accept       json
 // @Produce      json
 // @Router       /invoice-payment-status/{id} [delete]

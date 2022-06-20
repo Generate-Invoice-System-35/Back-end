@@ -27,10 +27,7 @@ type EchoUserController struct {
 func (ce *EchoUserController) GetUsersController(c echo.Context) error {
 	users := ce.Service.GetAllUsersService()
 
-	return c.JSONPretty(http.StatusOK, map[string]interface{}{
-		"messages": "success",
-		"users":    users,
-	}, " ")
+	return c.JSONPretty(http.StatusOK, users, " ")
 }
 
 // GetUserController godoc
@@ -55,10 +52,7 @@ func (ce *EchoUserController) GetUserController(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"messages": "success",
-		"user":     user,
-	})
+	return c.JSONPretty(http.StatusOK, user, " ")
 }
 
 // UpdateUserController godoc
