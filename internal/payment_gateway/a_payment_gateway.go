@@ -20,12 +20,12 @@ import (
 )
 
 func PaymentGateway(conf config.Config) {
-	config, err := localconfig.LoadConfig("config.yaml")
+	config, err := localconfig.LoadConfig("internal/payment_gateway/config.yaml")
 	if err != nil {
 		panic(err)
 	}
 
-	secret, err := localconfig.LoadSecret("secret.yaml")
+	secret, err := localconfig.LoadSecret("internal/payment_gateway/secret.yaml")
 	if err != nil {
 		panic(err)
 	}
@@ -46,7 +46,7 @@ func PaymentGateway(conf config.Config) {
 	m.MustMidtransTransactionStatusRepository(dssql.NewMidtransTransactionRepository(db))
 	m.MustInvoiceRepository(dssql.NewInvoiceRepository(db))
 	m.MustSubscriptionRepository(dssql.NewSubscriptionRepository(db))
-	m.MustPaymentConfigReader(inmemory.NewPaymentConfigRepository("payment-methods.yaml"))
+	m.MustPaymentConfigReader(inmemory.NewPaymentConfigRepository("internal/payment_gateway/payment_methods.yaml"))
 
 	srv := srv{
 		Router:     mux.NewRouter(),
@@ -68,7 +68,7 @@ type srv struct {
 func (s *srv) GetHandler() http.Handler {
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:     []string{"http://localhost:8888", "https://localhost:8888", "http://139.59.125.149:8888", "http://139.59.125.149:8888"},
+		AllowedOrigins:     []string{"http://127.0.0.1:8888", "https://127.0.0.1:8888", "http://139.59.125.149:8888", "http://139.59.125.149:8888"},
 		AllowedMethods:     []string{"POST", "GET", "PUT", "DELETE", "HEAD", "OPTIONS"},
 		AllowedHeaders:     []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "Mode"},
 		MaxAge:             60, // 1 minutes
