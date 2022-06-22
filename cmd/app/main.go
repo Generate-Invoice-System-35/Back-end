@@ -7,6 +7,7 @@ import (
 
 	conf "Back-end/config"
 	docs "Back-end/docs"
+	pmgt "Back-end/internal/payment_gateway"
 	rest "Back-end/internal/route"
 
 	echoSwag "github.com/swaggo/echo-swagger"
@@ -27,6 +28,7 @@ func main() {
 
 	e.Static("storage", "storage")
 
+	pmgt.PaymentGateway(config)
 	rest.RegisterAuthGroupAPI(e, config)
 	rest.RegisterUserGroupAPI(e, config)
 	rest.RegisterUploadImageGroupAPI(e, config)
