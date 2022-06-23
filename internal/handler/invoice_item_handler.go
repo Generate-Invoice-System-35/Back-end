@@ -17,7 +17,7 @@ type EchoInvoiceItemController struct {
 // CreateInvoiceItemController godoc
 // @Summary      Create Invoice Item
 // @Description  User can create invoice item for the detail of invoice
-// @Tags         InvoiceItem
+// @Tags         Invoice Item
 // @accept       json
 // @Produce      json
 // @Router       /invoice-item [post]
@@ -45,7 +45,7 @@ func (ce *EchoInvoiceItemController) CreateInvoiceItemController(c echo.Context)
 // GetInvoiceItemsController godoc
 // @Summary      Get All Invoice Item Information
 // @Description  User can get all invoices item information that has been created from user itself
-// @Tags         InvoiceItem
+// @Tags         Invoice Item
 // @accept       json
 // @Produce      json
 // @Router       /invoice-item [get]
@@ -54,16 +54,13 @@ func (ce *EchoInvoiceItemController) CreateInvoiceItemController(c echo.Context)
 func (ce *EchoInvoiceItemController) GetInvoiceItemsController(c echo.Context) error {
 	items := ce.Service.GetAllInvoiceItemsService()
 
-	return c.JSONPretty(http.StatusOK, map[string]interface{}{
-		"messages":      "success",
-		"invoice items": items,
-	}, " ")
+	return c.JSONPretty(http.StatusOK, items, " ")
 }
 
 // GetInvoiceItemController godoc
 // @Summary      Get Invoice Item Information by Id
 // @Description  User can get invoice item information by id
-// @Tags         InvoiceItem
+// @Tags         Invoice Item
 // @accept       json
 // @Produce      json
 // @Router       /invoice-item/{id} [get]
@@ -82,16 +79,13 @@ func (ce *EchoInvoiceItemController) GetInvoiceItemController(c echo.Context) er
 		})
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"messages":     "success",
-		"invoice item": item,
-	})
+	return c.JSONPretty(http.StatusOK, item, " ")
 }
 
 // UpdateInvoiceItemController godoc
 // @Summary      Update Invoice Item Information
 // @Description  User can update invoice item information
-// @Tags         InvoiceItem
+// @Tags         Invoice Item
 // @accept       json
 // @Produce      json
 // @Router       /invoice-item/{id} [put]
@@ -124,7 +118,7 @@ func (ce *EchoInvoiceItemController) UpdateInvoiceItemController(c echo.Context)
 // DeleteInvoiceItemController godoc
 // @Summary      Delete Invoice Item Information
 // @Description  User can delete invoice item information if they want it
-// @Tags         InvoiceItem
+// @Tags         Invoice Item
 // @accept       json
 // @Produce      json
 // @Router       /invoice-item/{id} [delete]

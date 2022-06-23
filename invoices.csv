@@ -1,0 +1,11 @@
+Number,Customer,Invoice_Date,Due_Date,Product,Label,Qty,Rate,Tax
+1001,Chris Smith,2019-01-15,2019-02-15,Gadget 101,Gadget 101,2,10000,5
+1002,James Smith,2019-01-17,2019-03-18,Consulting,Consulting,3,20000,0
+1003,Henry Jackson,2019-01-18,2019-02-02,Non Gadget,Non Gadget,4,10000,5
+1004,Silva Johnson,2019-01-19,2019-02-18,Consulting,Consulting,5,20000,0
+1005,Steven Acosta,2019-01-20,2019-01-20,Non Gadget,Non Gadget,6,10000,0
+1006,Maggie Walker,2019-01-21,2019-03-20,Consulting,Consulting,7,20000,5
+1007,Cory Omar,2019-01-21,2019-03-22,Gadget 101,Gadget 101,1,10000,0
+1008,John Lieu,2019-01-16,2019-02-15,Gadget 101,Gadget 101,2,10000,5
+1009,Karen Reiner,2019-01-17,2019-03-18,Consulting,Consulting,3,20000,0
+1010,Karin Grifin,2019-01-18,2019-02-02,Non Gadget,Non Gadget,4,20000,5

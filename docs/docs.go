@@ -16,6 +16,46 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/generate": {
+            "post": {
+                "description": "User can generate invoice file format csv of excel for sent to the client",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Invoice"
+                ],
+                "summary": "Generate Invoices",
+                "parameters": [
+                    {
+                        "description": "required",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Invoice"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Invoice"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Invoice"
+                        }
+                    }
+                }
+            }
+        },
         "/invoice": {
             "get": {
                 "security": [
@@ -102,7 +142,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "InvoiceItem"
+                    "Invoice Item"
                 ],
                 "summary": "Get All Invoice Item Information",
                 "responses": {
@@ -128,7 +168,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "InvoiceItem"
+                    "Invoice Item"
                 ],
                 "summary": "Create Invoice Item",
                 "parameters": [
@@ -173,7 +213,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "InvoiceItem"
+                    "Invoice Item"
                 ],
                 "summary": "Get Invoice Item Information by Id",
                 "parameters": [
@@ -214,7 +254,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "InvoiceItem"
+                    "Invoice Item"
                 ],
                 "summary": "Update Invoice Item Information",
                 "parameters": [
@@ -264,7 +304,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "InvoiceItem"
+                    "Invoice Item"
                 ],
                 "summary": "Delete Invoice Item Information",
                 "parameters": [
@@ -307,7 +347,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "InvoicePaymentStatus"
+                    "Invoice Payment Status"
                 ],
                 "summary": "Get All Invoice Payment Status Information",
                 "responses": {
@@ -333,7 +373,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "InvoicePaymentStatus"
+                    "Invoice Payment Status"
                 ],
                 "summary": "Create Invoice Payment Status",
                 "parameters": [
@@ -378,7 +418,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "InvoicePaymentStatus"
+                    "Invoice Payment Status"
                 ],
                 "summary": "Get Invoice Payment Status Information by Id",
                 "parameters": [
@@ -419,7 +459,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "InvoicePaymentStatus"
+                    "Invoice Payment Status"
                 ],
                 "summary": "Update Invoice Payment Status Information",
                 "parameters": [
@@ -469,7 +509,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "InvoicePaymentStatus"
+                    "Invoice Payment Status"
                 ],
                 "summary": "Delete Invoice Payment Status Information",
                 "parameters": [
@@ -729,6 +769,186 @@ const docTemplate = `{
                 }
             }
         },
+        "/upload-image": {
+            "get": {
+                "description": "User can get all images information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "Get All Images Information",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "User can upload image",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "Upload Image",
+                "parameters": [
+                    {
+                        "description": "required",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    }
+                }
+            }
+        },
+        "/upload-image/{id}": {
+            "get": {
+                "description": "User can get image information by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "Get Image Information by Id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "User can update image information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "Update Image Information",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "required",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "User can delete image information if they want it",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "File"
+                ],
+                "summary": "Delete Image Information",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.File"
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "get": {
                 "security": [
@@ -902,22 +1122,27 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "model.File": {
+            "type": "object",
+            "properties": {
+                "file_name": {
+                    "type": "string"
+                },
+                "file_size": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Invoice": {
             "type": "object",
             "properties": {
-                "buyer_city": {
-                    "type": "string"
-                },
                 "buyer_name": {
-                    "type": "string"
-                },
-                "buyer_street": {
-                    "type": "string"
-                },
-                "buyer_zip": {
-                    "type": "integer"
-                },
-                "date": {
                     "type": "string"
                 },
                 "due_date": {
@@ -929,26 +1154,11 @@ const docTemplate = `{
                 "id_payment_status": {
                     "type": "integer"
                 },
-                "issuer_city": {
+                "invoice_date": {
                     "type": "string"
-                },
-                "issuer_name": {
-                    "type": "string"
-                },
-                "issuer_street": {
-                    "type": "string"
-                },
-                "issuer_zip": {
-                    "type": "integer"
                 },
                 "number": {
                     "type": "string"
-                },
-                "tax": {
-                    "type": "number"
-                },
-                "total": {
-                    "type": "number"
                 }
             }
         },
@@ -964,14 +1174,14 @@ const docTemplate = `{
                 "label": {
                     "type": "string"
                 },
-                "price": {
-                    "type": "number"
-                },
                 "product": {
                     "type": "string"
                 },
                 "qty": {
                     "type": "integer"
+                },
+                "rate": {
+                    "type": "number"
                 },
                 "subtotal": {
                     "type": "number"

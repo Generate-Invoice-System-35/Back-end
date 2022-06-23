@@ -9,6 +9,8 @@ import (
 	docs "Back-end/docs"
 	rest "Back-end/internal/route"
 
+	// pmgt "Back-end/internal/payment_gateway"
+
 	echoSwag "github.com/swaggo/echo-swagger"
 )
 
@@ -25,13 +27,17 @@ func main() {
 	config := conf.InitConfig()
 	e := echo.New()
 
+	e.Static("storage", "storage")
+
 	rest.RegisterAuthGroupAPI(e, config)
 	rest.RegisterUserGroupAPI(e, config)
-	rest.RegisterUploadGroupAPI(e, config)
+	rest.RegisterUploadImageGroupAPI(e, config)
+	rest.RegisterGenerateInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceItemGroupAPI(e, config)
 	rest.RegisterSendCustomerGroupAPI(e, config)
 	rest.RegisterInvoicePaymentStatusGroupAPI(e, config)
+	// pmgt.PaymentGateway(config)
 
 	e.GET("/swagger/*", echoSwag.WrapHandler)
 	docs.SwaggerInfo.Host = os.Getenv("APP_HOST")

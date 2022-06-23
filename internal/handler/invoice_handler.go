@@ -54,10 +54,7 @@ func (ce *EchoInvoiceController) CreateInvoiceController(c echo.Context) error {
 func (ce *EchoInvoiceController) GetInvoicesController(c echo.Context) error {
 	invoices := ce.Service.GetAllInvoicesService()
 
-	return c.JSONPretty(http.StatusOK, map[string]interface{}{
-		"messages": "success",
-		"invoices": invoices,
-	}, " ")
+	return c.JSONPretty(http.StatusOK, invoices, " ")
 }
 
 // GetInvoiceController godoc
@@ -82,10 +79,7 @@ func (ce *EchoInvoiceController) GetInvoiceController(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"messages": "success",
-		"invoice":  invoice,
-	})
+	return c.JSONPretty(http.StatusOK, invoice, " ")
 }
 
 // UpdateInvoiceController godoc
