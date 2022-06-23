@@ -35,6 +35,7 @@ func main() {
 	rest.RegisterGenerateInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceItemGroupAPI(e, config)
+	rest.RegisterSendCustomerGroupAPI(e, config)
 	rest.RegisterInvoicePaymentStatusGroupAPI(e, config)
 	// pmgt.PaymentGateway(config)
 
