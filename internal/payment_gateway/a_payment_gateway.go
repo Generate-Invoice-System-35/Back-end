@@ -30,16 +30,16 @@ func PaymentGateway(conf config.Config) {
 		panic(err)
 	}
 
-	db := database.InitDB(conf)
+	db := database.InitDBPayment(conf)
 	db.AutoMigrate(
 		&midtrans.TransactionStatus{},
+		&subscription.Subscription{},
+		&subscription.Schedule{},
 		&invoice.Invoice{},
 		&invoice.Payment{},
 		&invoice.CreditCardDetail{},
 		&invoice.LineItem{},
 		&invoice.BillingAddress{},
-		&subscription.Subscription{},
-		&subscription.Schedule{},
 	)
 
 	m := manage.NewManager(*config, secret.Payment)
@@ -54,7 +54,7 @@ func PaymentGateway(conf config.Config) {
 	}
 	srv.routes()
 
-	if err := http.ListenAndServe(":8888", srv.GetHandler()); err != nil {
+	if err := http.ListenAndServe(":8080", srv.GetHandler()); err != nil {
 		log.Fatal().Msgf("Server can't run. Got: `%v`", err)
 	}
 }
@@ -68,7 +68,7 @@ type srv struct {
 func (s *srv) GetHandler() http.Handler {
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:     []string{"http://127.0.0.1:8888", "https://127.0.0.1:8888", "http://139.59.125.149:8888", "http://139.59.125.149:8888"},
+		AllowedOrigins:     []string{"http://127.0.0.1:8888", "https://127.0.0.1:8080", "http://139.59.125.149:8888", "http://139.59.125.149:8080"},
 		AllowedMethods:     []string{"POST", "GET", "PUT", "DELETE", "HEAD", "OPTIONS"},
 		AllowedHeaders:     []string{"Accept", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "Mode"},
 		MaxAge:             60, // 1 minutes
