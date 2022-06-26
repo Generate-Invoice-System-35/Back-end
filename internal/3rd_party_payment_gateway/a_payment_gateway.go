@@ -1,4 +1,4 @@
-package payment_gateway
+package third_party_payment_gateway
 
 import (
 	"Back-end/config"

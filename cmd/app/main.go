@@ -9,7 +9,7 @@ import (
 	docs "Back-end/docs"
 	rest "Back-end/internal/route"
 
-	// pmgt "Back-end/internal/payment_gateway"
+	// pmgt "Back-end/internal/third_party_payment_gateway"
 
 	echoSwag "github.com/swaggo/echo-swagger"
 )
