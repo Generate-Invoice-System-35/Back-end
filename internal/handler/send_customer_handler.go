@@ -12,6 +12,17 @@ type EchoSendCustomerController struct {
 	Service adapter.AdapterSendCustomerService
 }
 
+// SendEmailController godoc
+// @Summary      Send Email to Customer
+// @Description  User can send email to customer for invoice
+// @Tags         Send Customer
+// @accept       json
+// @Produce      json
+// @Router       /send/email [post]
+// @param        data  body      model.SendCustomer  true  "required"
+// @Success      201   {object}  model.SendCustomer
+// @Failure      500   {object}  model.SendCustomer
+// @Security     JWT
 func (ce *EchoSendCustomerController) SendEmailController(c echo.Context) error {
 	messages := model.SendCustomer{}
 	c.Bind(&messages)

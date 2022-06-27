@@ -143,7 +143,7 @@ func (ce *EchoUploadImageController) UploadImageController(c echo.Context) error
 // @accept       json
 // @Produce      json
 // @Router       /upload-image [get]
-// @Success      200  {object}  model.File
+// @Success      200   {object}  model.File
 func (ce *EchoUploadImageController) GetImagesController(c echo.Context) error {
 	images := ce.Service.GetAllImagesService()
 
@@ -157,7 +157,7 @@ func (ce *EchoUploadImageController) GetImagesController(c echo.Context) error {
 // @accept       json
 // @Produce      json
 // @Router       /upload-image/{id} [get]
-// @param        id   path      int  true  "id"
+// @param        id    path      int         true  "id"
 // @Success      200  {object}  model.File
 // @Failure      404  {object}  model.File
 func (ce *EchoUploadImageController) GetImageController(c echo.Context) error {
@@ -183,9 +183,9 @@ func (ce *EchoUploadImageController) GetImageController(c echo.Context) error {
 // @Produce      json
 // @Router       /upload-image/{id} [put]
 // @param        id   path      int  true  "id"
-// @param        data body      model.File  true  "required"
+// @param        data  body      model.File  true  "required"
 // @Success      200  {object}  model.File
-// @Failure      500  {object}  model.File
+// @Failure      500   {object}  model.File
 func (ce *EchoUploadImageController) UpdateImageController(c echo.Context) error {
 	// Get ID Param
 	id := c.Param("id")

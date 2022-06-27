@@ -49,7 +49,7 @@ func (ce *EchoInvoiceController) CreateInvoiceController(c echo.Context) error {
 // @accept       json
 // @Produce      json
 // @Router       /invoice [get]
-// @Success      200  {object}  model.Invoice
+// @Success      200   {object}  model.Invoice
 // @Security     JWT
 func (ce *EchoInvoiceController) GetInvoicesController(c echo.Context) error {
 	invoices := ce.Service.GetAllInvoicesService()
@@ -64,7 +64,7 @@ func (ce *EchoInvoiceController) GetInvoicesController(c echo.Context) error {
 // @accept       json
 // @Produce      json
 // @Router       /invoice/{id} [get]
-// @param        id   path      int  true  "id"
+// @param        id    path      int            true  "id"
 // @Success      200  {object}  model.Invoice
 // @Failure      404  {object}  model.Invoice
 // @Security     JWT
@@ -90,9 +90,9 @@ func (ce *EchoInvoiceController) GetInvoiceController(c echo.Context) error {
 // @Produce      json
 // @Router       /invoice/{id} [put]
 // @param        id   path      int  true  "id"
-// @param        data body      model.Invoice  true  "required"
+// @param        data  body      model.Invoice  true  "required"
 // @Success      200  {object}  model.Invoice
-// @Failure      500  {object}  model.Invoice
+// @Failure      500   {object}  model.Invoice
 // @Security     JWT
 func (ce *EchoInvoiceController) UpdateInvoiceController(c echo.Context) error {
 	id := c.Param("id")
