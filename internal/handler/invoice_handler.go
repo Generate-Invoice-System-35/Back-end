@@ -20,7 +20,7 @@ type EchoInvoiceController struct {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice [post]
+// @Router       /invoice [post]
 // @param        data  body      model.Invoice  true  "required"
 // @Success      201   {object}  model.Invoice
 // @Failure      500   {object}  model.Invoice
@@ -48,8 +48,8 @@ func (ce *EchoInvoiceController) CreateInvoiceController(c echo.Context) error {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice [get]
-// @Success      200  {object}  model.Invoice
+// @Router       /invoice [get]
+// @Success      200   {object}  model.Invoice
 // @Security     JWT
 func (ce *EchoInvoiceController) GetInvoicesController(c echo.Context) error {
 	invoices := ce.Service.GetAllInvoicesService()
@@ -63,8 +63,8 @@ func (ce *EchoInvoiceController) GetInvoicesController(c echo.Context) error {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice/{id} [get]
-// @param        id   path      int  true  "id"
+// @Router       /invoice/{id} [get]
+// @param        id    path      int            true  "id"
 // @Success      200  {object}  model.Invoice
 // @Failure      404  {object}  model.Invoice
 // @Security     JWT
@@ -88,11 +88,11 @@ func (ce *EchoInvoiceController) GetInvoiceController(c echo.Context) error {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice/{id} [put]
+// @Router       /invoice/{id} [put]
 // @param        id   path      int  true  "id"
-// @param        data body      model.Invoice  true  "required"
+// @param        data  body      model.Invoice  true  "required"
 // @Success      200  {object}  model.Invoice
-// @Failure      500  {object}  model.Invoice
+// @Failure      500   {object}  model.Invoice
 // @Security     JWT
 func (ce *EchoInvoiceController) UpdateInvoiceController(c echo.Context) error {
 	id := c.Param("id")
@@ -121,7 +121,7 @@ func (ce *EchoInvoiceController) UpdateInvoiceController(c echo.Context) error {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice/{id} [delete]
+// @Router       /invoice/{id} [delete]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.Invoice
 // @Failure      500  {object}  model.Invoice

@@ -20,7 +20,7 @@ type EchoInvoiceItemController struct {
 // @Tags         Invoice Item
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice-item [post]
+// @Router       /invoice-item [post]
 // @param        data  body      model.InvoiceItem  true  "required"
 // @Success      201   {object}  model.InvoiceItem
 // @Failure      500   {object}  model.InvoiceItem
@@ -48,8 +48,8 @@ func (ce *EchoInvoiceItemController) CreateInvoiceItemController(c echo.Context)
 // @Tags         Invoice Item
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice-item [get]
-// @Success      200  {object}  model.InvoiceItem
+// @Router       /invoice-item [get]
+// @Success      200   {object}  model.InvoiceItem
 // @Security     JWT
 func (ce *EchoInvoiceItemController) GetInvoiceItemsController(c echo.Context) error {
 	items := ce.Service.GetAllInvoiceItemsService()
@@ -63,8 +63,8 @@ func (ce *EchoInvoiceItemController) GetInvoiceItemsController(c echo.Context) e
 // @Tags         Invoice Item
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice-item/{id} [get]
-// @param        id   path      int  true  "id"
+// @Router       /invoice-item/{id} [get]
+// @param        id    path      int                true  "id"
 // @Success      200  {object}  model.InvoiceItem
 // @Failure      404  {object}  model.InvoiceItem
 // @Security     JWT
@@ -88,11 +88,11 @@ func (ce *EchoInvoiceItemController) GetInvoiceItemController(c echo.Context) er
 // @Tags         Invoice Item
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice-item/{id} [put]
+// @Router       /invoice-item/{id} [put]
 // @param        id   path      int  true  "id"
-// @param        data body      model.InvoiceItem  true  "required"
+// @param        data  body      model.InvoiceItem  true  "required"
 // @Success      200  {object}  model.InvoiceItem
-// @Failure      500  {object}  model.InvoiceItem
+// @Failure      500   {object}  model.InvoiceItem
 // @Security     JWT
 func (ce *EchoInvoiceItemController) UpdateInvoiceItemController(c echo.Context) error {
 	id := c.Param("id")
@@ -121,7 +121,7 @@ func (ce *EchoInvoiceItemController) UpdateInvoiceItemController(c echo.Context)
 // @Tags         Invoice Item
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice-item/{id} [delete]
+// @Router       /invoice-item/{id} [delete]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.InvoiceItem
 // @Failure      500  {object}  model.InvoiceItem

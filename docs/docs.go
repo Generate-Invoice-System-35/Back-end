@@ -769,6 +769,51 @@ const docTemplate = `{
                 }
             }
         },
+        "/send/email": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "User can send email to customer for invoice",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Send Customer"
+                ],
+                "summary": "Send Email to Customer",
+                "parameters": [
+                    {
+                        "description": "required",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SendCustomer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.SendCustomer"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.SendCustomer"
+                        }
+                    }
+                }
+            }
+        },
         "/upload-image": {
             "get": {
                 "description": "User can get all images information",
@@ -1202,6 +1247,20 @@ const docTemplate = `{
                 }
             }
         },
+        "model.SendCustomer": {
+            "type": "object",
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "subject": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            }
+        },
         "model.User": {
             "type": "object",
             "properties": {
@@ -1235,7 +1294,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "2.0",
-	Host:             "localhost:8888",
+	Host:             "api.calorilin.me:8888",
 	BasePath:         "",
 	Schemes:          []string{"http", "https"},
 	Title:            "Generate Invoice System API Documentation",

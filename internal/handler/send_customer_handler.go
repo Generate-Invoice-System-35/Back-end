@@ -18,7 +18,7 @@ type EchoSendCustomerController struct {
 // @Tags         Send Customer
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/send/email [post]
+// @Router       /send/email [post]
 // @param        data  body      model.SendCustomer  true  "required"
 // @Success      201   {object}  model.SendCustomer
 // @Failure      500   {object}  model.SendCustomer

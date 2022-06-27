@@ -20,7 +20,7 @@ type EchoInvoicePaymentStatusController struct {
 // @Tags         Invoice Payment Status
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice-payment-status [post]
+// @Router       /invoice-payment-status [post]
 // @param        data  body      model.InvoicePaymentStatus  true  "required"
 // @Success      201   {object}  model.InvoicePaymentStatus
 // @Failure      500   {object}  model.InvoicePaymentStatus
@@ -48,8 +48,8 @@ func (ce *EchoInvoicePaymentStatusController) CreateInvoicePaymentStatusControll
 // @Tags         Invoice Payment Status
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice-payment-status [get]
-// @Success      200  {object}  model.InvoicePaymentStatus
+// @Router       /invoice-payment-status [get]
+// @Success      200   {object}  model.InvoicePaymentStatus
 // @Security     JWT
 func (ce *EchoInvoicePaymentStatusController) GetInvoicesPaymentStatusController(c echo.Context) error {
 	invoices_payment_status := ce.Service.GetAllInvoicesPaymentStatusService()
@@ -63,8 +63,8 @@ func (ce *EchoInvoicePaymentStatusController) GetInvoicesPaymentStatusController
 // @Tags         Invoice Payment Status
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice-payment-status/{id} [get]
-// @param        id   path      int  true  "id"
+// @Router       /invoice-payment-status/{id} [get]
+// @param        id    path      int                         true  "id"
 // @Success      200  {object}  model.InvoicePaymentStatus
 // @Failure      404  {object}  model.InvoicePaymentStatus
 // @Security     JWT
@@ -88,11 +88,11 @@ func (ce *EchoInvoicePaymentStatusController) GetInvoicePaymentStatusController(
 // @Tags         Invoice Payment Status
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice-payment-status/{id} [put]
+// @Router       /invoice-payment-status/{id} [put]
 // @param        id   path      int  true  "id"
-// @param        data body      model.InvoicePaymentStatus  true  "required"
+// @param        data  body      model.InvoicePaymentStatus  true  "required"
 // @Success      200  {object}  model.InvoicePaymentStatus
-// @Failure      500  {object}  model.InvoicePaymentStatus
+// @Failure      500   {object}  model.InvoicePaymentStatus
 // @Security     JWT
 func (ce *EchoInvoicePaymentStatusController) UpdateInvoicePaymentStatusController(c echo.Context) error {
 	id := c.Param("id")
@@ -121,7 +121,7 @@ func (ce *EchoInvoicePaymentStatusController) UpdateInvoicePaymentStatusControll
 // @Tags         Invoice Payment Status
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/invoice-payment-status/{id} [delete]
+// @Router       /invoice-payment-status/{id} [delete]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.InvoicePaymentStatus
 // @Failure      500  {object}  model.InvoicePaymentStatus

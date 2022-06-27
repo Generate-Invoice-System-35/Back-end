@@ -15,7 +15,7 @@ import (
 // @title        Generate Invoice System API Documentation
 // @description  This is Generate Invoice System API
 // @version      2.0
-// @host         localhost:8888
+// @host         api.calorilin.me:8888
 // @BasePath
 // @schemes                     http https
 // @securityDefinitions.apiKey  JWT

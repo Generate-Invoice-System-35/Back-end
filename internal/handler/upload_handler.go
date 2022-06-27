@@ -28,7 +28,7 @@ type EchoUploadImageController struct {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/generate [post]
+// @Router       /generate [post]
 // @param        data  body      model.Invoice  true  "required"
 // @Success      201   {object}  model.Invoice
 // @Failure      500   {object}  model.Invoice
@@ -85,7 +85,7 @@ func (ce *EchoUploadCSVController) GenerateInvoicesController(c echo.Context) er
 // @Tags         File
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/upload-image [post]
+// @Router       /upload-image [post]
 // @param        data  body      model.File  true  "required"
 // @Success      201   {object}  model.File
 // @Failure      500   {object}  model.File
@@ -142,8 +142,8 @@ func (ce *EchoUploadImageController) UploadImageController(c echo.Context) error
 // @Tags         File
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/upload-image [get]
-// @Success      200  {object}  model.File
+// @Router       /upload-image [get]
+// @Success      200   {object}  model.File
 func (ce *EchoUploadImageController) GetImagesController(c echo.Context) error {
 	images := ce.Service.GetAllImagesService()
 
@@ -156,8 +156,8 @@ func (ce *EchoUploadImageController) GetImagesController(c echo.Context) error {
 // @Tags         File
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/upload-image/{id} [get]
-// @param        id   path      int  true  "id"
+// @Router       /upload-image/{id} [get]
+// @param        id    path      int         true  "id"
 // @Success      200  {object}  model.File
 // @Failure      404  {object}  model.File
 func (ce *EchoUploadImageController) GetImageController(c echo.Context) error {
@@ -181,11 +181,11 @@ func (ce *EchoUploadImageController) GetImageController(c echo.Context) error {
 // @Tags         File
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/upload-image/{id} [put]
+// @Router       /upload-image/{id} [put]
 // @param        id   path      int  true  "id"
-// @param        data body      model.File  true  "required"
+// @param        data  body      model.File  true  "required"
 // @Success      200  {object}  model.File
-// @Failure      500  {object}  model.File
+// @Failure      500   {object}  model.File
 func (ce *EchoUploadImageController) UpdateImageController(c echo.Context) error {
 	// Get ID Param
 	id := c.Param("id")
@@ -242,7 +242,7 @@ func (ce *EchoUploadImageController) UpdateImageController(c echo.Context) error
 // @Tags         File
 // @accept       json
 // @Produce      json
-// @Router       http://api.calorilin.me/upload-image/{id} [delete]
+// @Router       /upload-image/{id} [delete]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.File
 // @Failure      500  {object}  model.File
