@@ -18,19 +18,19 @@ func (r *RepositoryMysqlLayer) Register(user model.User) error {
 	return nil
 }
 
-func (r *RepositoryMysqlLayer) UsernameExists(username string) (user model.User, err error) {
+func (r *RepositoryMysqlLayer) Login(username string) (user model.User, err error) {
 	res := r.DB.Where("username = ?", username).Find(&user)
-	if res.RowsAffected > 0 {
-		err = fmt.Errorf("username exist")
+	if res.RowsAffected < 1 {
+		err = fmt.Errorf("username not found")
 	}
 
 	return
 }
 
-func (r *RepositoryMysqlLayer) Login(username string) (user model.User, err error) {
+func (r *RepositoryMysqlLayer) UsernameExists(username string) (user model.User, err error) {
 	res := r.DB.Where("username = ?", username).Find(&user)
-	if res.RowsAffected < 1 {
-		err = fmt.Errorf("username not found")
+	if res.RowsAffected > 0 {
+		err = fmt.Errorf("username exist")
 	}
 
 	return

@@ -7,7 +7,10 @@ import (
 )
 
 type AdapterGenerateInvoiceRepository interface {
-	CreateInvoiceGenerate(invoice []model.Invoice, item []model.InvoiceItem) error
+	CreateInvoiceGenerate(invoice model.Invoice) error
+	CreateInvoiceItemsGenerate(item model.InvoiceItem) error
+	NumberInvoiceExists(number string) (invoice model.Invoice, flag bool)
+	CreateInvoicesGenerate(invoice []model.Invoice, item []model.InvoiceItem) error
 }
 
 type AdapterGenerateInvoiceService interface {
