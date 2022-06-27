@@ -20,7 +20,7 @@ type EchoUserController struct {
 // @Tags         User
 // @accept       json
 // @Produce      json
-// @Router       /user [get]
+// @Router       http://api.calorilin.me/user [get]
 // @Success      200  {object}  model.User
 // @Failure      400  {object}  model.User
 // @Security     JWT
@@ -36,7 +36,7 @@ func (ce *EchoUserController) GetUsersController(c echo.Context) error {
 // @Tags         User
 // @accept       json
 // @Produce      json
-// @Router       /user/{id} [get]
+// @Router       http://api.calorilin.me/user/{id} [get]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.User
 // @Failure      400  {object}  model.User
@@ -61,7 +61,7 @@ func (ce *EchoUserController) GetUserController(c echo.Context) error {
 // @Tags         User
 // @accept       json
 // @Produce      json
-// @Router       /user/{id} [put]
+// @Router       http://api.calorilin.me/user/{id} [put]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.User
 // @Failure      400  {object}  model.User
@@ -94,7 +94,7 @@ func (ce *EchoUserController) UpdateUserController(c echo.Context) error {
 // @Tags         User
 // @accept       json
 // @Produce      json
-// @Router       /user/{id} [delete]
+// @Router       http://api.calorilin.me/user/{id} [delete]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.User
 // @Failure      400  {object}  model.User

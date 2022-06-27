@@ -36,7 +36,7 @@ func (s *serviceAuth) RegisterService(user model.User) (int, error) {
 func (s *serviceAuth) LoginService(username string, password string) (string, int) {
 	user, err := s.repo.Login(username)
 	if err != nil {
-		return "", http.StatusInternalServerError
+		return "", http.StatusUnauthorized
 	}
 
 	errPass := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))

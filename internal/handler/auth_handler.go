@@ -19,7 +19,7 @@ type EchoAuthController struct {
 // @Tags         User
 // @accept       json
 // @Produce      json
-// @Router       /register [post]
+// @Router       http://api.calorilin.me/register [post]
 // @param        data  body      model.User  true  "required"
 // @Success      201   {object}  model.User
 // @Failure      400   {object}  model.User
@@ -52,7 +52,7 @@ func (ce *EchoAuthController) RegisterController(c echo.Context) error {
 // @Tags         User
 // @accept       json
 // @Produce      json
-// @Router       /login [post]
+// @Router       http://api.calorilin.me/login [post]
 // @Param        data  body      model.User  true  "required"
 // @Success      200   {object}  model.User
 // @Success      400   {object}  model.User

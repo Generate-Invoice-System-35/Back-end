@@ -20,7 +20,7 @@ type EchoInvoiceController struct {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       /invoice [post]
+// @Router       http://api.calorilin.me/invoice [post]
 // @param        data  body      model.Invoice  true  "required"
 // @Success      201   {object}  model.Invoice
 // @Failure      500   {object}  model.Invoice
@@ -48,7 +48,7 @@ func (ce *EchoInvoiceController) CreateInvoiceController(c echo.Context) error {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       /invoice [get]
+// @Router       http://api.calorilin.me/invoice [get]
 // @Success      200  {object}  model.Invoice
 // @Security     JWT
 func (ce *EchoInvoiceController) GetInvoicesController(c echo.Context) error {
@@ -63,7 +63,7 @@ func (ce *EchoInvoiceController) GetInvoicesController(c echo.Context) error {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       /invoice/{id} [get]
+// @Router       http://api.calorilin.me/invoice/{id} [get]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.Invoice
 // @Failure      404  {object}  model.Invoice
@@ -88,7 +88,7 @@ func (ce *EchoInvoiceController) GetInvoiceController(c echo.Context) error {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       /invoice/{id} [put]
+// @Router       http://api.calorilin.me/invoice/{id} [put]
 // @param        id   path      int  true  "id"
 // @param        data body      model.Invoice  true  "required"
 // @Success      200  {object}  model.Invoice
@@ -121,7 +121,7 @@ func (ce *EchoInvoiceController) UpdateInvoiceController(c echo.Context) error {
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       /invoice/{id} [delete]
+// @Router       http://api.calorilin.me/invoice/{id} [delete]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.Invoice
 // @Failure      500  {object}  model.Invoice
