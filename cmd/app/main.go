@@ -7,6 +7,7 @@ import (
 
 	conf "Back-end/config"
 	docs "Back-end/docs"
+	rest1 "Back-end/internal/payment_gateway/route"
 	rest "Back-end/internal/route"
 
 	// pmgt "Back-end/internal/third_party_payment_gateway"
@@ -36,6 +37,7 @@ func main() {
 	rest.RegisterInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceItemGroupAPI(e, config)
 	rest.RegisterInvoicePaymentStatusGroupAPI(e, config)
+	rest1.RegisterPaymentGatewayGroupAPI(e, config)
 	// pmgt.PaymentGateway(config)
 
 	e.GET("/swagger/*", echoSwag.WrapHandler)
