@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"time"
 
 	"gorm.io/gorm"
 
@@ -10,6 +11,8 @@ import (
 )
 
 func (r *RepositoryMysqlLayer) Register(user model.User) error {
+	user.Created_At = time.Now()
+	user.Updated_At = time.Now()
 	res := r.DB.Create(&user)
 	if res.RowsAffected < 1 {
 		return fmt.Errorf("error insert")
@@ -18,19 +21,19 @@ func (r *RepositoryMysqlLayer) Register(user model.User) error {
 	return nil
 }
 
-func (r *RepositoryMysqlLayer) UsernameExists(username string) (user model.User, err error) {
+func (r *RepositoryMysqlLayer) Login(username string) (user model.User, err error) {
 	res := r.DB.Where("username = ?", username).Find(&user)
-	if res.RowsAffected > 0 {
-		err = fmt.Errorf("username exist")
+	if res.RowsAffected < 1 {
+		err = fmt.Errorf("username not found")
 	}
 
 	return
 }
 
-func (r *RepositoryMysqlLayer) Login(username string) (user model.User, err error) {
+func (r *RepositoryMysqlLayer) UsernameExists(username string) (user model.User, err error) {
 	res := r.DB.Where("username = ?", username).Find(&user)
-	if res.RowsAffected < 1 {
-		err = fmt.Errorf("username not found")
+	if res.RowsAffected > 0 {
+		err = fmt.Errorf("username exist")
 	}
 
 	return

@@ -49,7 +49,7 @@ func (ce *EchoInvoicePaymentStatusController) CreateInvoicePaymentStatusControll
 // @accept       json
 // @Produce      json
 // @Router       /invoice-payment-status [get]
-// @Success      200  {object}  model.InvoicePaymentStatus
+// @Success      200   {object}  model.InvoicePaymentStatus
 // @Security     JWT
 func (ce *EchoInvoicePaymentStatusController) GetInvoicesPaymentStatusController(c echo.Context) error {
 	invoices_payment_status := ce.Service.GetAllInvoicesPaymentStatusService()
@@ -64,7 +64,7 @@ func (ce *EchoInvoicePaymentStatusController) GetInvoicesPaymentStatusController
 // @accept       json
 // @Produce      json
 // @Router       /invoice-payment-status/{id} [get]
-// @param        id   path      int  true  "id"
+// @param        id    path      int                         true  "id"
 // @Success      200  {object}  model.InvoicePaymentStatus
 // @Failure      404  {object}  model.InvoicePaymentStatus
 // @Security     JWT
@@ -90,9 +90,9 @@ func (ce *EchoInvoicePaymentStatusController) GetInvoicePaymentStatusController(
 // @Produce      json
 // @Router       /invoice-payment-status/{id} [put]
 // @param        id   path      int  true  "id"
-// @param        data body      model.InvoicePaymentStatus  true  "required"
+// @param        data  body      model.InvoicePaymentStatus  true  "required"
 // @Success      200  {object}  model.InvoicePaymentStatus
-// @Failure      500  {object}  model.InvoicePaymentStatus
+// @Failure      500   {object}  model.InvoicePaymentStatus
 // @Security     JWT
 func (ce *EchoInvoicePaymentStatusController) UpdateInvoicePaymentStatusController(c echo.Context) error {
 	id := c.Param("id")

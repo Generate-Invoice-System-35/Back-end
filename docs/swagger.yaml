@@ -51,6 +51,15 @@ definitions:
       name:
         type: string
     type: object
+  model.SendCustomer:
+    properties:
+      body:
+        type: string
+      subject:
+        type: string
+      to:
+        type: string
+    type: object
   model.User:
     properties:
       created_at:
@@ -64,7 +73,7 @@ definitions:
       username:
         type: string
     type: object
-host: localhost:8888
+host: api.calorilin.me:8888
 info:
   contact: {}
   description: This is Generate Invoice System API
@@ -550,6 +559,34 @@ paths:
       summary: Register User
       tags:
       - User
+  /send/email:
+    post:
+      consumes:
+      - application/json
+      description: User can send email to customer for invoice
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.SendCustomer'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.SendCustomer'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.SendCustomer'
+      security:
+      - JWT: []
+      summary: Send Email to Customer
+      tags:
+      - Send Customer
   /upload-image:
     get:
       consumes:

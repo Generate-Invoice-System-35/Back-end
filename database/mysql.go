@@ -28,11 +28,29 @@ func InitDB(conf config.Config) *gorm.DB {
 	return DB
 }
 
+func InitDBPayment(conf config.Config) *gorm.DB {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		conf.DB_USERNAME,
+		conf.DB_PASSWORD,
+		conf.DB_HOST,
+		conf.DB_PORT,
+		conf.DB_NAME,
+	)
+
+	DB, err := gorm.Open(mysql.Open(dsn))
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return DB
+}
+
 func initMigrate(db *gorm.DB) {
 	db.AutoMigrate(&model.User{})
 	db.AutoMigrate(&model.File{})
 	db.AutoMigrate(&model.Invoice{})
 	db.AutoMigrate(&model.InvoiceItem{})
+  db.AutoMigrate(&model.SendCustomer{})
 	db.AutoMigrate(&model.TransactionRecord{})
 	db.AutoMigrate(&model.InvoicePaymentStatus{})
 }

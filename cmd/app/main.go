@@ -10,15 +10,13 @@ import (
 	xendit "Back-end/internal/payment_gateway/xendit/route"
 	rest "Back-end/internal/route"
 
-	// pmgt "Back-end/internal/third_party_payment_gateway"
-
 	echoSwag "github.com/swaggo/echo-swagger"
 )
 
 // @title        Generate Invoice System API Documentation
 // @description  This is Generate Invoice System API
 // @version      2.0
-// @host         localhost:8888
+// @host         api.calorilin.me:8888
 // @BasePath
 // @schemes                     http https
 // @securityDefinitions.apiKey  JWT
@@ -36,9 +34,9 @@ func main() {
 	rest.RegisterGenerateInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceGroupAPI(e, config)
 	rest.RegisterInvoiceItemGroupAPI(e, config)
+	rest.RegisterSendCustomerGroupAPI(e, config)
 	rest.RegisterInvoicePaymentStatusGroupAPI(e, config)
 	xendit.RegisterPaymentGatewayGroupAPI(e, config)
-	// pmgt.PaymentGateway(config)
 
 	e.GET("/swagger/*", echoSwag.WrapHandler)
 	docs.SwaggerInfo.Host = os.Getenv("APP_HOST")
