@@ -7,6 +7,7 @@ import (
 
 	conf "Back-end/config"
 	docs "Back-end/docs"
+	xendit "Back-end/internal/payment_gateway/xendit/route"
 	rest "Back-end/internal/route"
 
 	echoSwag "github.com/swaggo/echo-swagger"
@@ -35,6 +36,7 @@ func main() {
 	rest.RegisterInvoiceItemGroupAPI(e, config)
 	rest.RegisterSendCustomerGroupAPI(e, config)
 	rest.RegisterInvoicePaymentStatusGroupAPI(e, config)
+	xendit.RegisterPaymentGatewayGroupAPI(e, config)
 
 	e.GET("/swagger/*", echoSwag.WrapHandler)
 	docs.SwaggerInfo.Host = os.Getenv("APP_HOST")

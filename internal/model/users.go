@@ -11,6 +11,5 @@ type User struct {
 }
 
 func (u *User) TableName() string {
-	// custom table name, this is default
 	return "users"
 }

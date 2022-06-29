@@ -50,6 +50,7 @@ func initMigrate(db *gorm.DB) {
 	db.AutoMigrate(&model.File{})
 	db.AutoMigrate(&model.Invoice{})
 	db.AutoMigrate(&model.InvoiceItem{})
-	db.AutoMigrate(&model.SendCustomer{})
+  db.AutoMigrate(&model.SendCustomer{})
+	db.AutoMigrate(&model.TransactionRecord{})
 	db.AutoMigrate(&model.InvoicePaymentStatus{})
 }
