@@ -26,5 +26,5 @@ func RegisterPaymentGatewayGroupAPI(e *echo.Echo, conf config.Config) {
 	apiInvoice.GET("/:id", hand.GetXenditPaymentInvoiceController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiInvoice.GET("", hand.GetAllXenditPaymentInvoiceController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiInvoice.GET("/expire/:id", hand.ExpireXenditPaymentInvoiceController, middleware.JWT([]byte(conf.JWT_KEY)))
-	apiInvoice.GET("/callback", hand.CallbackXenditPaymentInvoiceController)
+	apiInvoice.POST("/callback", hand.CallbackXenditPaymentInvoiceController)
 }
