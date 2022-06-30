@@ -10,6 +10,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+const CALLBACK_PUBLIC_KEY = "xnd_public_development_HBTjAJMAM0TbLDQ5mMoITLNUYJi8b3bb4Uge7xtN2zDuu7L8uZycmMikwFf1W"
+
 type EchoPaymentGatewayController struct {
 	Service adapter.AdapterPaymentGatewayService
 }
@@ -75,12 +77,11 @@ func (ce *EchoPaymentGatewayController) CallbackXenditPaymentInvoiceController(c
 	invoiceCallback := model.CallbackInvoice{}
 	c.Bind(&invoiceCallback)
 
-	// xCallbackToken := c.Request().Header.Get("x-callback-token")
-	// fmt.Println("callback header", xCallbackToken)
+	xCallbackToken := c.Request().Header.Get("x-callback-token")
 
-	// if xCallbackToken != "YOUR PUBLIC KEY ON XENDIT" {
-	// 	return c.JSON(200, "this is not from PG xendit")
-	// }
+	if xCallbackToken != CALLBACK_PUBLIC_KEY {
+		return c.JSON(http.StatusForbidden, "this is not from PG xendit")
+	}
 
 	// decoder := json.NewDecoder(c.Request().Body)
 

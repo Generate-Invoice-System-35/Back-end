@@ -27,6 +27,10 @@ func (s *servicePaymentGateway) CreateXenditPaymentInvoiceService(id int) (*xend
 		return nil, errRepo
 	}
 
+	if inv.ID_Payment_Status == 3 {
+		return nil, fmt.Errorf("invoice already paid")
+	}
+
 	xendit.Opt.SecretKey = XENDIT_SECRET_KEY
 	// customerAddress := xendit.CustomerAddress{
 	// 	Country:     "Indonesia",
@@ -108,11 +112,17 @@ func (s *servicePaymentGateway) CreateXenditPaymentInvoiceService(id int) (*xend
 		return resp, err
 	}
 
+	var statusInvoice model.Invoice
+	statusInvoice.ID_Payment_Status = 2
+	s.repo.UpdateStatusInvoice(inv.ID, statusInvoice)
+
 	transaction := model.TransactionRecord{
 		ID_Invoice:         inv.ID,
 		ID_Invoice_Payment: resp.ID,
 		ID_User_Payment:    resp.UserID,
 	}
+
+	log.Print(transaction)
 
 	errTransaction := s.repo.CreateTransactionRecord(inv.ID, transaction)
 	if errTransaction != nil {
