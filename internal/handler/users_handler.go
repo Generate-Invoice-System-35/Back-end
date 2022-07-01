@@ -48,7 +48,7 @@ func (ce *EchoUserController) GetUserController(c echo.Context) error {
 	user, err := ce.Service.GetUserByIDService(intID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
-			"messages": "no id",
+			"message": "no id",
 		})
 	}
 
@@ -77,14 +77,14 @@ func (ce *EchoUserController) UpdateUserController(c echo.Context) error {
 	err := ce.Service.UpdateUserByIDService(intID, user)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
-			"messages": "no id or no change",
+			"message": "no id or no change",
 		})
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"messages": "edited",
-		"id":       intID,
-		"user":     user,
+		"message": "edited",
+		"id":      intID,
+		"user":    user,
 	})
 }
 
@@ -107,11 +107,11 @@ func (ce *EchoUserController) DeleteUsercontroller(c echo.Context) error {
 	err := ce.Service.DeleteUserByIDService(intID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
-			"messages": "no id or no delete",
+			"message": "no id or no delete",
 		})
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"messages": "deleted",
+		"message": "deleted",
 	})
 }

@@ -24,37 +24,37 @@ type EchoSendCustomerController struct {
 // @Failure      500   {object}  model.SendCustomer
 // @Security     JWT
 func (ce *EchoSendCustomerController) SendEmailController(c echo.Context) error {
-	messages := model.SendCustomer{}
-	c.Bind(&messages)
+	message := model.SendCustomer{}
+	c.Bind(&message)
 
-	err := ce.Service.SendEmailService(messages)
+	err := ce.Service.SendEmailService(message)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "internal server error",
-			"error":    err,
+			"message": "internal server error",
+			"error":   err,
 		})
 	}
 
 	return c.JSON(http.StatusCreated, map[string]interface{}{
-		"messages": "success",
-		"send":     messages,
+		"message": "success",
+		"send":    message,
 	})
 }
 
 func (ce *EchoSendCustomerController) SendWhatsappController(c echo.Context) error {
-	messages := model.SendCustomer{}
-	c.Bind(&messages)
+	message := model.SendCustomer{}
+	c.Bind(&message)
 
-	err := ce.Service.SendWhatsappService(messages)
+	err := ce.Service.SendWhatsappService(message)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "internal server error",
-			"error":    err,
+			"message": "internal server error",
+			"error":   err,
 		})
 	}
 
 	return c.JSON(http.StatusCreated, map[string]interface{}{
-		"messages": "success",
-		"send":     messages,
+		"message": "success",
+		"send":    message,
 	})
 }

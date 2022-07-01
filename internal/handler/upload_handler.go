@@ -41,16 +41,16 @@ func (ce *EchoUploadCSVController) GenerateInvoicesController(c echo.Context) er
 	file, err1 := c.FormFile("file")
 	if err1 != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "upload failed",
-			"error":    err1,
+			"message": "upload failed",
+			"error":   err1,
 		})
 	}
 
 	src, err2 := file.Open()
 	if err2 != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "open failed",
-			"error":    err2,
+			"message": "open failed",
+			"error":   err2,
 		})
 	}
 	defer src.Close()
@@ -60,8 +60,8 @@ func (ce *EchoUploadCSVController) GenerateInvoicesController(c echo.Context) er
 	data, err3 := csvReader.ReadAll()
 	if err3 != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "read failed",
-			"error":    err3,
+			"message": "read failed",
+			"error":   err3,
 		})
 	}
 
@@ -69,13 +69,13 @@ func (ce *EchoUploadCSVController) GenerateInvoicesController(c echo.Context) er
 	err4 := ce.Service.CreateInvoiceGenerateService(data)
 	if err4 != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "convert failed",
-			"error":    err4,
+			"message": "convert failed",
+			"error":   err4,
 		})
 	}
 
 	return c.JSON(http.StatusCreated, map[string]interface{}{
-		"messages": "generate success",
+		"message": "generate success",
 	})
 }
 
@@ -125,13 +125,13 @@ func (ce *EchoUploadImageController) UploadImageController(c echo.Context) error
 	errService := ce.Service.CreateImageService(img, file)
 	if errService != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "upload failed",
+			"message": "upload failed",
 		})
 	}
 
 	return c.JSON(http.StatusCreated, map[string]interface{}{
-		"messages": "uploaded",
-		"detail":   img,
+		"message": "uploaded",
+		"detail":  img,
 	})
 	// return c.HTML(http.StatusOK, fmt.Sprintf("<p>File %s uploaded successfully!</p>", file.Filename))
 }
@@ -168,7 +168,7 @@ func (ce *EchoUploadImageController) GetImageController(c echo.Context) error {
 	image, err := ce.Service.GetImageByIDService(intID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "upload failed",
+			"message": "upload failed",
 		})
 	}
 
@@ -226,13 +226,13 @@ func (ce *EchoUploadImageController) UpdateImageController(c echo.Context) error
 	errService := ce.Service.UpdateImageService(intID, img, file)
 	if errService != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "upload failed",
+			"message": "upload failed",
 		})
 	}
 
 	return c.JSON(http.StatusCreated, map[string]interface{}{
-		"messages": "uploaded",
-		"detail":   img,
+		"message": "uploaded",
+		"detail":  img,
 	})
 }
 
@@ -253,12 +253,12 @@ func (ce *EchoUploadImageController) DeleteImageController(c echo.Context) error
 	err := ce.Service.DeleteImageService(intID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "no id or no delete",
+			"message": "no id or no delete",
 		})
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"messages": "deleted",
-		"id":       intID,
+		"message": "deleted",
+		"id":      intID,
 	})
 }
