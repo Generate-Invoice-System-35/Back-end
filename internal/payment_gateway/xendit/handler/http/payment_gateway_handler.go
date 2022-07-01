@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -76,6 +77,7 @@ func (ce *EchoPaymentGatewayController) ExpireXenditPaymentInvoiceController(c e
 func (ce *EchoPaymentGatewayController) CallbackXenditPaymentInvoiceController(c echo.Context) error {
 	invoiceCallback := model.CallbackInvoice{}
 	c.Bind(&invoiceCallback)
+	fmt.Println("Invoice Callback : ", invoiceCallback)
 
 	// xCallbackToken := c.Request().Header.Get("x-callback-token")
 

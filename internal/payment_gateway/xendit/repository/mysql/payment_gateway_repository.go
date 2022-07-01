@@ -81,6 +81,7 @@ func (r *RepositoryMysqlLayer) GetTotalAmount(id int) (float32, error) {
 func (r *RepositoryMysqlLayer) UpdateStatusInvoice(id int, invoice model.Invoice) error {
 	res := r.DB.Where("id = ?", id).UpdateColumns(&invoice)
 	if res.RowsAffected < 1 {
+		log.Print("Error Update")
 		return fmt.Errorf("error update")
 	}
 
