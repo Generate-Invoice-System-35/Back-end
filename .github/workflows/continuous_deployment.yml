@@ -40,5 +40,6 @@ jobs:
         script: |
           docker stop generate-invoices
           docker container rm generate-invoices
+          docker rmi mdrahano12/generate-invoices:0.0
           docker pull mdrahano12/generate-invoices:0.0
           docker run -dp 80:8888 --name generate-invoices --detach mdrahano12/generate-invoices:0.0

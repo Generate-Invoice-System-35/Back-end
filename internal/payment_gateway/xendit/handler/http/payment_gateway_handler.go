@@ -77,11 +77,11 @@ func (ce *EchoPaymentGatewayController) CallbackXenditPaymentInvoiceController(c
 	invoiceCallback := model.CallbackInvoice{}
 	c.Bind(&invoiceCallback)
 
-	xCallbackToken := c.Request().Header.Get("x-callback-token")
+	// xCallbackToken := c.Request().Header.Get("x-callback-token")
 
-	if xCallbackToken != CALLBACK_PUBLIC_KEY {
-		return c.JSON(http.StatusForbidden, "this is not from PG xendit")
-	}
+	// if xCallbackToken != CALLBACK_PUBLIC_KEY {
+	// 	return c.JSON(http.StatusForbidden, "this is not from PG xendit")
+	// }
 
 	// decoder := json.NewDecoder(c.Request().Body)
 
