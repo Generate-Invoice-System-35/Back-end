@@ -115,3 +115,41 @@ func (ce *EchoUserController) DeleteUsercontroller(c echo.Context) error {
 		"message": "deleted",
 	})
 }
+
+func (ce *EchoUserController) ChangeUsernameController(c echo.Context) error {
+	id := c.Param("id")
+	intID, _ := strconv.Atoi(id)
+
+	var username string
+	c.Bind(&username)
+
+	err := ce.Service.UpdateUsernameService(intID, username)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"message": "no id or no change",
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "updated",
+	})
+}
+
+func (ce *EchoUserController) ChangePasswordController(c echo.Context) error {
+	id := c.Param("id")
+	intID, _ := strconv.Atoi(id)
+
+	var password string
+	c.Bind(&password)
+
+	err := ce.Service.UpdatePasswordService(intID, password)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"message": "no id or no change",
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "updated",
+	})
+}
