@@ -4,6 +4,7 @@ import (
 	"Back-end/config"
 	"Back-end/internal/adapter"
 	"Back-end/internal/model"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -24,6 +25,7 @@ func (s *serviceUser) GetUserByIDService(id int) (model.User, error) {
 func (s *serviceUser) UpdateUserByIDService(id int, user model.User) error {
 	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
 	user.Password = string(hashPassword)
+	user.Updated_At = time.Now()
 
 	return s.repo.UpdateUserByID(id, user)
 }
@@ -37,6 +39,7 @@ func (s *serviceUser) UpdateUsernameService(id int, username string) error {
 	}
 
 	user.Username = username
+	user.Updated_At = time.Now()
 	return s.repo.UpdateUserByID(id, user)
 }
 
@@ -45,6 +48,7 @@ func (s *serviceUser) UpdatePasswordService(id int, password string) error {
 
 	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 14)
 	user.Password = string(hashPassword)
+	user.Updated_At = time.Now()
 
 	return s.repo.UpdateUserByID(id, user)
 }

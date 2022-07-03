@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"mime/multipart"
+	"time"
 
 	"Back-end/config"
 	"Back-end/internal/adapter"
@@ -16,6 +17,8 @@ type serviceUpload struct {
 func (s *serviceUpload) CreateImageService(image model.File, file *multipart.FileHeader) error {
 	image.File_Name = file.Filename
 	image.File_Size = int(file.Size)
+	image.Created_At = time.Now()
+	image.Updated_At = time.Now()
 
 	err := s.repo.CreateImage(image)
 	if err != nil {
@@ -36,6 +39,7 @@ func (s *serviceUpload) GetImageByIDService(id int) (model.File, error) {
 func (s *serviceUpload) UpdateImageService(id int, image model.File, file *multipart.FileHeader) error {
 	image.File_Name = file.Filename
 	image.File_Size = int(file.Size)
+	image.Updated_At = time.Now()
 
 	err := s.repo.UpdateImage(id, image)
 	if err != nil {

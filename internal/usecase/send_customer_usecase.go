@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/smtp"
+	"time"
 
 	"Back-end/config"
 	"Back-end/internal/adapter"
@@ -46,51 +47,9 @@ func (s *serviceSendCustomer) SendEmailService(msg model.SendCustomer) error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// Outlook
-	// mailer := gomail.NewMessage()
-	// mailer.SetHeader("From", CONFIG_SENDER_NAME)
-	// mailer.SetHeader("To", msg.To)
-	// mailer.SetAddressHeader("Cc", "tralalala@gmail.com", "Tra Lala La")
-	// mailer.SetHeader("Subject", msg.Subject)
-	// mailer.SetBody("text/html", msg.Body)
-	// // mailer.Attach("./sample.png")
 
-	// dialer := gomail.NewDialer(
-	// 	CONFIG_SMTP_HOST,
-	// 	CONFIG_SMTP_PORT,
-	// 	CONFIG_AUTH_EMAIL,
-	// 	CONFIG_AUTH_PASSWORD,
-	// )
-
-	// err := dialer.DialAndSend(mailer)
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
-
-	// log.Println("Mail sent!")
-
-	// Gmail
-	// email := "fattureinvoices35@gmail.com"
-	// from := "fattureinvoices35@gmail.com"
-	// password := "FattureInvoices123456789"
-
-	// toEmailAdress := msg.To
-	// to := []string{toEmailAdress}
-
-	// host := "smtp.mailtrap.io"
-	// port := "25"
-	// address := host + ":" + port
-
-	// subject := "Subject: " + msg.Subject + "\n"
-	// body := msg.Body
-	// message := []byte(subject + body)
-
-	// auth := smtp.PlainAuth("", email, password, host)
-	// err := smtp.SendMail(address, auth, from, to, message)
-	// if err != nil {
-	// 	panic(err)
-	// }
-
+	msg.Created_At = time.Now()
+	msg.Updated_At = time.Now()
 	return s.repo.SendEmail(msg)
 }
 

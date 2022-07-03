@@ -3,9 +3,11 @@ package model
 import "time"
 
 type TransactionRecord struct {
-	ID_Invoice         int    `json:"id_invoice" form:"id_invoice"`
-	ID_Invoice_Payment string `json:"id_invoice_payment" form:"id_invoice_payment"`
-	ID_User_Payment    string `json:"id_user_payment" form:"id_user_payment"`
+	ID_Invoice         int       `json:"id_invoice" form:"id_invoice"`
+	ID_Invoice_Payment string    `json:"id_invoice_payment" form:"id_invoice_payment"`
+	ID_User_Payment    string    `json:"id_user_payment" form:"id_user_payment"`
+	Created_At         time.Time `json:"created_at" form:"created_at"`
+	Updated_At         time.Time `json:"updated_at" form:"updated_at"`
 }
 
 type CallbackInvoice struct {

@@ -2,7 +2,6 @@ package repository
 
 import (
 	"fmt"
-	"time"
 
 	"gorm.io/gorm"
 
@@ -11,8 +10,6 @@ import (
 )
 
 func (r *RepositoryMysqlLayer) Register(user model.User) error {
-	user.Created_At = time.Now()
-	user.Updated_At = time.Now()
 	res := r.DB.Create(&user)
 	if res.RowsAffected < 1 {
 		return fmt.Errorf("error insert")

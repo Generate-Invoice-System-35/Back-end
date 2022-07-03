@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"net/http"
+	"time"
 
 	"Back-end/config"
 	"Back-end/internal/adapter"
@@ -24,6 +25,9 @@ func (s *serviceAuth) RegisterService(user model.User) (int, error) {
 
 	hashPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
 	user.Password = string(hashPassword)
+
+	user.Created_At = time.Now()
+	user.Updated_At = time.Now()
 
 	errRegister := s.repo.Register(user)
 	if errRegister != nil {
