@@ -32,17 +32,17 @@ func (ce *EchoAuthController) RegisterController(c echo.Context) error {
 	switch statusCode {
 	case http.StatusExpectationFailed:
 		return c.JSONPretty(http.StatusExpectationFailed, map[string]interface{}{
-			"messages": "username exist",
+			"message": "username exist",
 		}, " ")
 	case http.StatusInternalServerError:
 		return c.JSONPretty(http.StatusInternalServerError, map[string]interface{}{
-			"messages": err.Error(),
+			"message": err.Error(),
 		}, " ")
 	}
 
 	return c.JSONPretty(http.StatusCreated, map[string]interface{}{
-		"messages": "success",
-		"users":    user,
+		"message": "success",
+		"users":   user,
 	}, " ")
 }
 
@@ -66,11 +66,11 @@ func (ce *EchoAuthController) LoginController(c echo.Context) error {
 	switch statusCode {
 	case http.StatusUnauthorized:
 		return c.JSONPretty(http.StatusUnauthorized, map[string]interface{}{
-			"messages": "wrong username or password",
+			"message": "wrong username or password",
 		}, " ")
 	case http.StatusInternalServerError:
 		return c.JSONPretty(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "internal server error",
+			"message": "internal server error",
 		}, " ")
 	}
 

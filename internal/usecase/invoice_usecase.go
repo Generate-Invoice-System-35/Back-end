@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"time"
+
 	"Back-end/config"
 	"Back-end/internal/adapter"
 	"Back-end/internal/model"
@@ -12,6 +14,8 @@ type serviceInvoice struct {
 }
 
 func (s *serviceInvoice) CreateInvoiceService(invoice model.Invoice) error {
+	invoice.Created_At = time.Now()
+	invoice.Updated_At = time.Now()
 	return s.repo.CreateInvoice(invoice)
 }
 
@@ -24,6 +28,7 @@ func (s *serviceInvoice) GetInvoiceByIDService(id int) (model.Invoice, error) {
 }
 
 func (s *serviceInvoice) UpdateInvoiceByIDService(id int, invoice model.Invoice) error {
+	invoice.Updated_At = time.Now()
 	return s.repo.UpdateInvoiceByID(id, invoice)
 }
 

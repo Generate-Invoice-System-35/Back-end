@@ -32,12 +32,12 @@ func (ce *EchoInvoiceItemController) CreateInvoiceItemController(c echo.Context)
 	err := ce.Service.CreateInvoiceItemService(item)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "internal server error",
+			"message": "internal server error",
 		})
 	}
 
 	return c.JSON(http.StatusCreated, map[string]interface{}{
-		"messages":     "success",
+		"message":      "success",
 		"invoice item": item,
 	})
 }
@@ -75,7 +75,7 @@ func (ce *EchoInvoiceItemController) GetInvoiceItemController(c echo.Context) er
 	item, err := ce.Service.GetInvoiceItemByIDService(intID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
-			"messages": "no id",
+			"message": "no id",
 		})
 	}
 
@@ -104,12 +104,12 @@ func (ce *EchoInvoiceItemController) UpdateInvoiceItemController(c echo.Context)
 	err := ce.Service.UpdateInvoiceItemByIDService(intID, item)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "no id or no change",
+			"message": "no id or no change",
 		})
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"messages":     "edited",
+		"message":      "edited",
 		"id":           intID,
 		"invoice item": item,
 	})
@@ -133,12 +133,12 @@ func (ce *EchoInvoiceItemController) DeleteInvoiceItemController(c echo.Context)
 	err := ce.Service.DeleteInvoiceItemByIDService(intID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"messages": "no id or no delete",
+			"message": "no id or no delete",
 		})
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"messages": "deleted",
-		"id":       intID,
+		"message": "deleted",
+		"id":      intID,
 	})
 }

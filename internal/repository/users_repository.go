@@ -29,6 +29,15 @@ func (r *RepositoryMysqlLayer) GetUserByID(id int) (user model.User, err error) 
 	return
 }
 
+func (r *RepositoryMysqlLayer) UsernameExist(username string) (user model.User, err error) {
+	res := r.DB.Where("username = ?", username).Find(&user)
+	if res.RowsAffected > 0 {
+		err = fmt.Errorf("username exist")
+	}
+
+	return
+}
+
 func (r *RepositoryMysqlLayer) UpdateUserByID(id int, user model.User) error {
 	res := r.DB.Where("id = ?", id).UpdateColumns(&user)
 	if res.RowsAffected < 1 {

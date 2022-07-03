@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"Back-end/config"
 	"Back-end/internal/model"
@@ -42,10 +43,10 @@ func (s *servicePaymentGateway) CreateXenditPaymentInvoiceService(id int) (*xend
 	// }
 
 	customer := xendit.InvoiceCustomer{
-		GivenNames:   inv.Buyer_Name,
-		Email:        "johndoe@example.com",
-		MobileNumber: "+6287774441111",
-		Address:      "",
+		GivenNames:   inv.Name,
+		Email:        inv.Email,
+		MobileNumber: inv.Number,
+		Address:      inv.Address,
 	}
 
 	var items []xendit.InvoiceItem
@@ -53,8 +54,8 @@ func (s *servicePaymentGateway) CreateXenditPaymentInvoiceService(id int) (*xend
 		item := xendit.InvoiceItem{
 			Name:     invItem[i].Product,
 			Quantity: invItem[i].Qty,
-			Price:    float64(invItem[i].Rate),
-			Category: invItem[i].Label,
+			Price:    float64(invItem[i].Price),
+			Category: invItem[i].Category,
 			Url:      "",
 		}
 		items = append(items, item)
@@ -95,12 +96,12 @@ func (s *servicePaymentGateway) CreateXenditPaymentInvoiceService(id int) (*xend
 	data := invoice.CreateParams{
 		ExternalID:                     strconv.Itoa(inv.ID),
 		Amount:                         float64(total),
-		Description:                    "Invoice Demo #123",
+		Description:                    inv.Description,
 		InvoiceDuration:                86400,
 		Customer:                       customer,
 		CustomerNotificationPreference: customerNotificationPreference,
-		SuccessRedirectURL:             "https://www.google.com",
-		FailureRedirectURL:             "https://www.google.com",
+		SuccessRedirectURL:             "https://http.cat/200",
+		FailureRedirectURL:             "https://http.cat/406",
 		Currency:                       "IDR",
 		Items:                          items,
 		Fees:                           fees,
@@ -120,6 +121,8 @@ func (s *servicePaymentGateway) CreateXenditPaymentInvoiceService(id int) (*xend
 		ID_Invoice:         inv.ID,
 		ID_Invoice_Payment: resp.ID,
 		ID_User_Payment:    resp.UserID,
+		Created_At:         time.Now(),
+		Updated_At:         time.Now(),
 	}
 
 	log.Print(transaction)
@@ -178,6 +181,8 @@ func (s *servicePaymentGateway) GetAllXenditPaymentInvoiceService() ([]xendit.In
 }
 
 func (s *servicePaymentGateway) ExpireXenditPaymentInvoiceService(id int) (*xendit.Invoice, error) {
+	var statusInvoice model.Invoice
+
 	xendit.Opt.SecretKey = XENDIT_SECRET_KEY
 
 	ID, errRepo := s.repo.GetIDInvoicePayment(id)
@@ -195,6 +200,9 @@ func (s *servicePaymentGateway) ExpireXenditPaymentInvoiceService(id int) (*xend
 		log.Fatal(err)
 		return resp, err
 	}
+
+	statusInvoice.ID_Payment_Status = 4
+	s.repo.UpdateStatusInvoice(id, statusInvoice)
 
 	// fmt.Printf("expired invoice: %+v\n", resp)
 	return resp, nil
