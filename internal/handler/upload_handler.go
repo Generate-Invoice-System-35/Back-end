@@ -22,17 +22,17 @@ type EchoUploadImageController struct {
 	Service adapter.AdapterUploadImageService
 }
 
-// GenerateInvoicesController godoc
-// @Summary      Generate Invoices
+// GenerateFileController godoc
+// @Summary      Generate File Invoices
 // @Description  User can generate invoice file format csv of excel for sent to the client
 // @Tags         Invoice
 // @accept       json
 // @Produce      json
-// @Router       /generate [post]
+// @Router       /generate/file [post]
 // @param        data  body      model.Invoice  true  "required"
 // @Success      201   {object}  model.Invoice
 // @Failure      500   {object}  model.Invoice
-func (ce *EchoUploadCSVController) GenerateInvoicesController(c echo.Context) error {
+func (ce *EchoUploadCSVController) GenerateFileController(c echo.Context) error {
 	//-----------
 	// Read file
 	//-----------
@@ -66,7 +66,7 @@ func (ce *EchoUploadCSVController) GenerateInvoicesController(c echo.Context) er
 	}
 
 	// Convert Records to Array of Struct
-	err4 := ce.Service.CreateInvoiceGenerateService(data)
+	err4 := ce.Service.GenerateFileService(data)
 	if err4 != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "convert failed",
@@ -75,7 +75,36 @@ func (ce *EchoUploadCSVController) GenerateInvoicesController(c echo.Context) er
 	}
 
 	return c.JSON(http.StatusCreated, map[string]interface{}{
-		"message": "generate success",
+		"message": "generate file success",
+	})
+}
+
+// GenerateInvoicesController godoc
+// @Summary      Generate Invoices
+// @Description  User can generate invoice for send to the client
+// @Tags         Invoice
+// @accept       json
+// @Produce      json
+// @Router       /generate/invoices [post]
+// @param        data  body      model.Invoice  true  "required"
+// @Success      201   {object}  model.Invoice
+// @Failure      500   {object}  model.Invoice
+func (ce *EchoUploadCSVController) GenerateInvoicesController(c echo.Context) error {
+	type Data struct {
+		IDS []int `json:"ids" form:"ids"`
+	}
+	datas := new(Data)
+	c.Bind(&datas)
+
+	err := ce.Service.GenerateInvoiceService(datas.IDS)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "no id or no delete",
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "generate invoices success",
 	})
 }
 

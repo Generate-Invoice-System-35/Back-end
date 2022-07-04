@@ -1,6 +1,8 @@
 definitions:
   model.File:
     properties:
+      created_at:
+        type: string
       file_name:
         type: string
       file_size:
@@ -9,12 +11,20 @@ definitions:
         type: integer
       name:
         type: string
+      updated_at:
+        type: string
     type: object
   model.Invoice:
     properties:
-      buyer_name:
+      address:
+        type: string
+      created_at:
+        type: string
+      description:
         type: string
       due_date:
+        type: string
+      email:
         type: string
       id:
         type: integer
@@ -22,27 +32,35 @@ definitions:
         type: integer
       invoice_date:
         type: string
+      name:
+        type: string
       number:
+        type: string
+      phone_number:
+        type: string
+      updated_at:
         type: string
     type: object
   model.InvoiceItem:
     properties:
+      category:
+        type: string
+      created_at:
+        type: string
       id:
         type: integer
       id_invoice:
         type: integer
-      label:
-        type: string
+      price:
+        type: number
       product:
         type: string
       qty:
         type: integer
-      rate:
-        type: number
       subtotal:
         type: number
-      tax:
-        type: number
+      updated_at:
+        type: string
     type: object
   model.InvoicePaymentStatus:
     properties:
@@ -55,18 +73,32 @@ definitions:
     properties:
       body:
         type: string
-      subject:
-        type: string
-      to:
-        type: string
-    type: object
-  model.User:
-    properties:
       created_at:
         type: string
       id:
         type: integer
+      subject:
+        type: string
+      to:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.User:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
       password:
+        type: string
+      phone_number:
         type: string
       updated_at:
         type: string
@@ -80,12 +112,38 @@ info:
   title: Generate Invoice System API Documentation
   version: "2.0"
 paths:
-  /generate:
+  /generate/file:
     post:
       consumes:
       - application/json
       description: User can generate invoice file format csv of excel for sent to
         the client
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Invoice'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Invoice'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.Invoice'
+      summary: Generate File Invoices
+      tags:
+      - Invoice
+  /generate/invoices:
+    post:
+      consumes:
+      - application/json
+      description: User can generate invoice for send to the client
       parameters:
       - description: required
         in: body
@@ -587,6 +645,68 @@ paths:
       summary: Send Email to Customer
       tags:
       - Send Customer
+  /update/password/{id}:
+    put:
+      consumes:
+      - application/json
+      description: User can change username
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.User'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.User'
+      security:
+      - JWT: []
+      summary: Password
+      tags:
+      - User
+  /update/username/{id}:
+    put:
+      consumes:
+      - application/json
+      description: User can change username
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.User'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.User'
+      security:
+      - JWT: []
+      summary: Update Username
+      tags:
+      - User
   /upload-image:
     get:
       consumes:
