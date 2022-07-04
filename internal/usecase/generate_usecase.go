@@ -203,7 +203,7 @@ func (s *serviceGenerate) GenerateInvoiceService(ids []int) error {
 
 		to := []string{dest}
 
-		subject := "Invoice (Ref INV/2022/" + inv.Number
+		subject := "Invoice (Ref INV/2022/" + inv.Number + ")"
 		body := "Hi " + inv.Name + ",\n\n" +
 			"We hope you're well. Please see attached invoice number " +
 			inv.Number + ", due on " + inv.Due_Date.String() +
