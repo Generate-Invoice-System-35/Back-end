@@ -125,8 +125,6 @@ func (s *servicePaymentGateway) CreateXenditPaymentInvoiceService(id int) (*xend
 		Updated_At:         time.Now(),
 	}
 
-	log.Print(transaction)
-
 	errTransaction := s.repo.CreateTransactionRecord(inv.ID, transaction)
 	if errTransaction != nil {
 		log.Print(err)

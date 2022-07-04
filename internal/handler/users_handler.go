@@ -116,6 +116,18 @@ func (ce *EchoUserController) DeleteUsercontroller(c echo.Context) error {
 	})
 }
 
+// ChangeUsernameController godoc
+// @Summary      Update Username
+// @Description  User can change username
+// @Tags         User
+// @accept       json
+// @Produce      json
+// @Router       /update/username/{id} [put]
+// @param        id   path      int  true  "id"
+// @Success      200  {object}  model.User
+// @Failure      400  {object}  model.User
+// @Failure      500  {object}  model.User
+// @Security     JWT
 func (ce *EchoUserController) ChangeUsernameController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
@@ -135,6 +147,18 @@ func (ce *EchoUserController) ChangeUsernameController(c echo.Context) error {
 	})
 }
 
+// ChangePasswordController godoc
+// @Summary      Password
+// @Description  User can change username
+// @Tags         User
+// @accept       json
+// @Produce      json
+// @Router       /update/password/{id} [put]
+// @param        id   path      int  true  "id"
+// @Success      200  {object}  model.User
+// @Failure      400  {object}  model.User
+// @Failure      500  {object}  model.User
+// @Security     JWT
 func (ce *EchoUserController) ChangePasswordController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)

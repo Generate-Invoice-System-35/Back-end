@@ -79,28 +79,6 @@ func (ce *EchoPaymentGatewayController) CallbackXenditPaymentInvoiceController(c
 	c.Bind(&invoiceCallback)
 	fmt.Println("Invoice Callback : ", invoiceCallback)
 
-	// xCallbackToken := c.Request().Header.Get("x-callback-token")
-
-	// if xCallbackToken != CALLBACK_PUBLIC_KEY {
-	// 	return c.JSON(http.StatusForbidden, "this is not from PG xendit")
-	// }
-
-	// decoder := json.NewDecoder(c.Request().Body)
-
-	// err := decoder.Decode(&invoiceCallback)
-
-	// update our DB for the status payment
-	// log.Print(invoiceCallback.Status)
-
-	// jsonAsBYTE, _ := json.Marshal(invoiceCallback)
-	// fmt.Println("request masuk", string(jsonAsBYTE))
-
-	// if err != nil {
-	// 	panic(err)
-	// }
-
-	// defer c.Request().Body.Close()
-
 	err := ce.Service.CallbackXenditPaymentInvoiceService(invoiceCallback)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{

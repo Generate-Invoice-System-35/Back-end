@@ -20,7 +20,8 @@ func RegisterGenerateInvoiceGroupAPI(e *echo.Echo, conf config.Config) {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.POST("/generate", hand.GenerateInvoicesController)
+	e.POST("/generate/file", hand.GenerateFileController)
+	e.POST("/generate/invoices", hand.GenerateInvoicesController)
 }
 
 func RegisterUploadImageGroupAPI(e *echo.Echo, conf config.Config) {

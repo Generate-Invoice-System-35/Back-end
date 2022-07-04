@@ -16,9 +16,49 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/generate": {
+        "/generate/file": {
             "post": {
                 "description": "User can generate invoice file format csv of excel for sent to the client",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Invoice"
+                ],
+                "summary": "Generate File Invoices",
+                "parameters": [
+                    {
+                        "description": "required",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Invoice"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Invoice"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Invoice"
+                        }
+                    }
+                }
+            }
+        },
+        "/generate/invoices": {
+            "post": {
+                "description": "User can generate invoice for send to the client",
                 "consumes": [
                     "application/json"
                 ],
@@ -814,6 +854,104 @@ const docTemplate = `{
                 }
             }
         },
+        "/update/password/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "User can change username",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Password",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/update/username/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "User can change username",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update Username",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                }
+            }
+        },
         "/upload-image": {
             "get": {
                 "description": "User can get all images information",
@@ -1170,6 +1308,9 @@ const docTemplate = `{
         "model.File": {
             "type": "object",
             "properties": {
+                "created_at": {
+                    "type": "string"
+                },
                 "file_name": {
                     "type": "string"
                 },
@@ -1181,16 +1322,28 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },
         "model.Invoice": {
             "type": "object",
             "properties": {
-                "buyer_name": {
+                "address": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
                     "type": "string"
                 },
                 "due_date": {
+                    "type": "string"
+                },
+                "email": {
                     "type": "string"
                 },
                 "id": {
@@ -1202,7 +1355,16 @@ const docTemplate = `{
                 "invoice_date": {
                     "type": "string"
                 },
+                "name": {
+                    "type": "string"
+                },
                 "number": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -1210,14 +1372,20 @@ const docTemplate = `{
         "model.InvoiceItem": {
             "type": "object",
             "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "id_invoice": {
                     "type": "integer"
                 },
-                "label": {
-                    "type": "string"
+                "price": {
+                    "type": "number"
                 },
                 "product": {
                     "type": "string"
@@ -1225,14 +1393,11 @@ const docTemplate = `{
                 "qty": {
                     "type": "integer"
                 },
-                "rate": {
-                    "type": "number"
-                },
                 "subtotal": {
                     "type": "number"
                 },
-                "tax": {
-                    "type": "number"
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },
@@ -1253,10 +1418,19 @@ const docTemplate = `{
                 "body": {
                     "type": "string"
                 },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
                 "subject": {
                     "type": "string"
                 },
                 "to": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -1264,13 +1438,25 @@ const docTemplate = `{
         "model.User": {
             "type": "object",
             "properties": {
+                "address": {
+                    "type": "string"
+                },
                 "created_at": {
+                    "type": "string"
+                },
+                "email": {
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
+                "name": {
+                    "type": "string"
+                },
                 "password": {
+                    "type": "string"
+                },
+                "phone_number": {
                     "type": "string"
                 },
                 "updated_at": {

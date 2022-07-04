@@ -9,12 +9,18 @@ import (
 type AdapterGenerateInvoiceRepository interface {
 	CreateInvoiceGenerate(invoice model.Invoice) error
 	CreateInvoiceItemsGenerate(item model.InvoiceItem) error
+	CreateTransactionRecord(int, model.TransactionRecord) error
 	NumberInvoiceExists(number string) (invoice model.Invoice, flag bool)
 	CreateInvoicesGenerate(invoice []model.Invoice, item []model.InvoiceItem) error
+	GetInvoices(int) (model.Invoice, []model.InvoiceItem, error)
+	GetTotalAmount(int) (float32, error)
+	UpdateStatusInvoice(int, model.Invoice) error
+	SendEmail(message model.SendCustomer) error
 }
 
 type AdapterGenerateInvoiceService interface {
-	CreateInvoiceGenerateService(data [][]string) error
+	GenerateFileService(data [][]string) error
+	GenerateInvoiceService(data []int) error
 }
 
 type AdapterUploadImageRepository interface {

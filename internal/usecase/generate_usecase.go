@@ -1,19 +1,28 @@
 package usecase
 
 import (
+	"fmt"
+	"log"
+	"net/smtp"
+	"strconv"
+	"time"
+
 	"Back-end/config"
 	"Back-end/internal/adapter"
 	"Back-end/internal/model"
-	"strconv"
-	"time"
+
+	"github.com/xendit/xendit-go"
+	"github.com/xendit/xendit-go/invoice"
 )
+
+const XENDIT_SECRET_KEY = "xnd_development_4aoNFVAmHyBXgOeFJ01dl8a3S5s1snPh02uMVEqKpiXD4NaxUe7xCClxqcCW6"
 
 type serviceGenerate struct {
 	c    config.Config
 	repo adapter.AdapterGenerateInvoiceRepository
 }
 
-func (s *serviceGenerate) CreateInvoiceGenerateService(data [][]string) error {
+func (s *serviceGenerate) GenerateFileService(data [][]string) error {
 	var err error = nil
 
 	for i, line := range data {
@@ -84,6 +93,146 @@ func (s *serviceGenerate) CreateInvoiceGenerateService(data [][]string) error {
 		}
 	}
 	return err
+}
+
+func (s *serviceGenerate) GenerateInvoiceService(ids []int) error {
+	for i := 0; i < len(ids); i++ {
+		/* <========== CREATE INVOICE PAYMENT ==========> */
+		inv, invItem, errRepo := s.repo.GetInvoices(ids[i])
+		if errRepo != nil {
+			log.Print(errRepo)
+			return errRepo
+		}
+
+		if inv.ID_Payment_Status == 3 {
+			return fmt.Errorf("invoice already paid")
+		}
+
+		xendit.Opt.SecretKey = XENDIT_SECRET_KEY
+
+		customer := xendit.InvoiceCustomer{
+			GivenNames:   inv.Name,
+			Email:        inv.Email,
+			MobileNumber: inv.Number,
+			Address:      inv.Address,
+		}
+
+		var items []xendit.InvoiceItem
+		for i := 0; i < len(invItem); i++ {
+			item := xendit.InvoiceItem{
+				Name:     invItem[i].Product,
+				Quantity: invItem[i].Qty,
+				Price:    float64(invItem[i].Price),
+				Category: invItem[i].Category,
+				Url:      "",
+			}
+			items = append(items, item)
+		}
+
+		var fees []xendit.InvoiceFee
+		fee := xendit.InvoiceFee{
+			Type:  "ADMIN",
+			Value: 5000,
+		}
+		fees = append(fees, fee)
+
+		NotificationType := []string{"whatsapp", "email", "sms"}
+
+		customerNotificationPreference := xendit.InvoiceCustomerNotificationPreference{
+			InvoiceCreated:  NotificationType,
+			InvoiceReminder: NotificationType,
+			InvoicePaid:     NotificationType,
+			InvoiceExpired:  NotificationType,
+		}
+
+		total, error := s.repo.GetTotalAmount(inv.ID)
+		if error != nil {
+			return error
+		}
+		for i := 0; i < len(fees); i++ {
+			total += float32(fees[i].Value)
+		}
+
+		data := invoice.CreateParams{
+			ExternalID:                     strconv.Itoa(inv.ID),
+			Amount:                         float64(total),
+			Description:                    inv.Description,
+			InvoiceDuration:                86400,
+			Customer:                       customer,
+			CustomerNotificationPreference: customerNotificationPreference,
+			SuccessRedirectURL:             "https://http.cat/200",
+			FailureRedirectURL:             "https://http.cat/406",
+			Currency:                       "IDR",
+			Items:                          items,
+			Fees:                           fees,
+		}
+
+		resp, err := invoice.Create(&data)
+		if err != nil {
+			log.Print(err)
+			return err
+		}
+
+		var statusInvoice model.Invoice
+		statusInvoice.ID_Payment_Status = 2
+		s.repo.UpdateStatusInvoice(inv.ID, statusInvoice)
+
+		transaction := model.TransactionRecord{
+			ID_Invoice:         inv.ID,
+			ID_Invoice_Payment: resp.ID,
+			ID_User_Payment:    resp.UserID,
+			Created_At:         time.Now(),
+			Updated_At:         time.Now(),
+		}
+
+		errTransaction := s.repo.CreateTransactionRecord(inv.ID, transaction)
+		if errTransaction != nil {
+			log.Print(err)
+			return err
+		}
+
+		/* <========== SEND EMAIL TO CUSTOMER ==========> */
+		server := "smtp-mail.outlook.com"
+		port := 587
+		user := "fattureinvoices35@outlook.com"
+		from := user
+		pass := "FattureInvoices123456789"
+		dest := inv.Email
+
+		auth := LoginAuth(user, pass)
+
+		to := []string{dest}
+
+		subject := "Invoice (Ref INV/2022/" + inv.Number
+		body := "Hi " + inv.Name + ",\n\n" +
+			"We hope you're well. Please see attached invoice number " +
+			inv.Number + ", due on " + inv.Due_Date.String() +
+			". Don't hesitate to reach out if you have any questions.\n" +
+			"Here the link link payment : " + resp.InvoiceURL +
+			"\n\n Kind regards,\n\nFatture Invoices"
+
+		message := []byte("From: " + from + "\n" +
+			"To: " + dest + "\n" +
+			"Subject: " + subject + "\n\n" +
+			body)
+
+		endpoint := fmt.Sprintf("%v:%v", server, port)
+		errSendEmail := smtp.SendMail(endpoint, auth, from, to, message)
+		if errSendEmail != nil {
+			log.Fatal(err)
+		}
+
+		msg := model.SendCustomer{
+			To:         dest,
+			Subject:    subject,
+			Body:       body,
+			Created_At: time.Now(),
+			Updated_At: time.Now(),
+		}
+		s.repo.SendEmail(msg)
+	}
+
+	return nil
 }
 
 func NewServiceGenerate(repo adapter.AdapterGenerateInvoiceRepository, c config.Config) adapter.AdapterGenerateInvoiceService {
