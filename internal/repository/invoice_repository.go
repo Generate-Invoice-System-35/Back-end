@@ -34,10 +34,19 @@ func (r *RepositoryMysqlLayer) GetInvoiceByID(id int) (invoice model.Invoice, er
 	return
 }
 
-func (r *RepositoryMysqlLayer) GetInvoiceByPaymentStatus(status int) (invoice model.Invoice, err error) {
+func (r *RepositoryMysqlLayer) GetInvoicesByPaymentStatus(status int) (invoice []model.Invoice, err error) {
 	res := r.DB.Where("id_payment_status = ?", status).Find(&invoice)
 	if res.RowsAffected < 1 {
 		err = fmt.Errorf("status not found")
+	}
+
+	return
+}
+
+func (r *RepositoryMysqlLayer) GetInvoicesByNameCustomer(name string) (invoice []model.Invoice, err error) {
+	res := r.DB.Where("name like ?", "%"+name+"%").Find(&invoice)
+	if res.RowsAffected < 1 {
+		err = fmt.Errorf("invoices not found")
 	}
 
 	return
