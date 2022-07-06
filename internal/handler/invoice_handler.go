@@ -82,18 +82,35 @@ func (ce *EchoInvoiceController) GetInvoiceController(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, invoice, " ")
 }
 
-func (ce *EchoInvoiceController) GetInvoiceByPaymentStatusController(c echo.Context) error {
+func (ce *EchoInvoiceController) GetInvoicesByPaymentStatusController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
 
-	invoice, err := ce.Service.GetInoviceByPaymentStatusService(intID)
+	invoices, err := ce.Service.GetInovicesByPaymentStatusService(intID)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
 			"messages": "no status id",
 		})
 	}
 
-	return c.JSONPretty(http.StatusOK, invoice, " ")
+	return c.JSONPretty(http.StatusOK, invoices, " ")
+}
+
+func (ce *EchoInvoiceController) GetInvoicesByNameCustomerController(c echo.Context) error {
+	type Keyword struct {
+		Name string `json:"name" form:"name"`
+	}
+	key := new(Keyword)
+	c.Bind(key)
+
+	invoices, err := ce.Service.GetInvoicesByNameCustomerService(key.Name)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"messages": "invoices not found",
+		})
+	}
+
+	return c.JSONPretty(http.StatusOK, invoices, " ")
 }
 
 // UpdateInvoiceController godoc
