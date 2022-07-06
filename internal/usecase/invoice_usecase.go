@@ -27,6 +27,10 @@ func (s *serviceInvoice) GetInvoiceByIDService(id int) (model.Invoice, error) {
 	return s.repo.GetInvoiceByID(id)
 }
 
+func (s *serviceInvoice) GetInoviceByPaymentStatusService(status int) (model.Invoice, error) {
+	return s.repo.GetInvoiceByPaymentStatus(status)
+}
+
 func (s *serviceInvoice) UpdateInvoiceByIDService(id int, invoice model.Invoice) error {
 	invoice.Updated_At = time.Now()
 	return s.repo.UpdateInvoiceByID(id, invoice)
