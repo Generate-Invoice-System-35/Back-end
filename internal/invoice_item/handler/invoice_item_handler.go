@@ -82,6 +82,19 @@ func (ce *EchoInvoiceItemController) GetInvoiceItemController(c echo.Context) er
 	return c.JSONPretty(http.StatusOK, item, " ")
 }
 
+func (ce *EchoInvoiceItemController) GetInvoiceItemsByNumberController(c echo.Context) error {
+	number := c.Param("number")
+
+	items, err := ce.Service.GetInvoiceItemByNumberService(number)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"message": "no number",
+		})
+	}
+
+	return c.JSONPretty(http.StatusOK, items, " ")
+}
+
 // UpdateInvoiceItemController godoc
 // @Summary      Update Invoice Item Information
 // @Description  User can update invoice item information

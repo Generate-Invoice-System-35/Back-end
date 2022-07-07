@@ -28,6 +28,10 @@ func (s *serviceInvoiceItem) GetInvoiceItemByIDService(id int) (model.InvoiceIte
 	return s.repo.GetInvoiceItemByID(id)
 }
 
+func (s *serviceInvoiceItem) GetInvoiceItemByNumberService(number string) ([]model.InvoiceItem, error) {
+	return s.repo.GetInvoiceItemByNumber(number)
+}
+
 func (s *serviceInvoiceItem) UpdateInvoiceItemByIDService(id int, item model.InvoiceItem) error {
 	item.Updated_At = time.Now()
 

@@ -132,9 +132,10 @@ func (ce *EchoUserController) ChangeUsernameController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
 
-	var username string
-	c.Bind(&username)
+	user := model.User{}
+	c.Bind(&user)
 
+	username := user.Username
 	err := ce.Service.UpdateUsernameService(intID, username)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
@@ -163,9 +164,10 @@ func (ce *EchoUserController) ChangePasswordController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
 
-	var password string
-	c.Bind(&password)
+	user := model.User{}
+	c.Bind(&user)
 
+	password := user.Password
 	err := ce.Service.UpdatePasswordService(intID, password)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{

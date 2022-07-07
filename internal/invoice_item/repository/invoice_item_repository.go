@@ -3,6 +3,7 @@ package repository
 import (
 	"fmt"
 
+	invoice "Back-end/internal/invoice/model"
 	"Back-end/internal/invoice_item/adapter"
 	"Back-end/internal/invoice_item/model"
 
@@ -33,6 +34,21 @@ func (r *RepositoryMysqlLayer) GetInvoiceItemByID(id int) (item model.InvoiceIte
 	res := r.DB.Where("id = ?", id).Find(&item)
 	if res.RowsAffected < 1 {
 		err = fmt.Errorf("not found")
+	}
+
+	return
+}
+
+func (r *RepositoryMysqlLayer) GetInvoiceItemByNumber(number string) (items []model.InvoiceItem, err error) {
+	var inv invoice.Invoice
+	res1 := r.DB.Where("number = ?", number).Find(&inv)
+	if res1.RowsAffected < 1 {
+		err = fmt.Errorf("number invoice not found")
+	}
+
+	res2 := r.DB.Where("id_invoice = ?", inv.ID).Find(&items)
+	if res2.RowsAffected < 1 {
+		err = fmt.Errorf("id invoice not found")
 	}
 
 	return
