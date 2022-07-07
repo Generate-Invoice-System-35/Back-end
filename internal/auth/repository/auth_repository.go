@@ -3,11 +3,15 @@ package repository
 import (
 	"fmt"
 
-	"gorm.io/gorm"
+	"Back-end/internal/auth/adapter"
+	"Back-end/internal/user/model"
 
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"gorm.io/gorm"
 )
+
+type RepositoryMysqlLayer struct {
+	DB *gorm.DB
+}
 
 func (r *RepositoryMysqlLayer) Register(user model.User) error {
 	res := r.DB.Create(&user)

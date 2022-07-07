@@ -1,6 +1,6 @@
 package adapter
 
-import "Back-end/internal/model"
+import "Back-end/internal/user/model"
 
 type AdapterUserRepository interface {
 	GetAllUsers() []model.User

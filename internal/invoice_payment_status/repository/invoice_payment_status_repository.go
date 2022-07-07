@@ -3,11 +3,15 @@ package repository
 import (
 	"fmt"
 
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"Back-end/internal/invoice_payment_status/adapter"
+	"Back-end/internal/invoice_payment_status/model"
 
 	"gorm.io/gorm"
 )
+
+type RepositoryMysqlLayer struct {
+	DB *gorm.DB
+}
 
 func (r *RepositoryMysqlLayer) CreateInvoicePaymentStatus(status model.InvoicePaymentStatus) error {
 	res := r.DB.Create(&status)

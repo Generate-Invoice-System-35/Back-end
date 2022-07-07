@@ -3,10 +3,10 @@ package repository
 import (
 	"fmt"
 
-	"gorm.io/gorm"
+	"Back-end/internal/user/adapter"
+	"Back-end/internal/user/model"
 
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"gorm.io/gorm"
 )
 
 type RepositoryMysqlLayer struct {

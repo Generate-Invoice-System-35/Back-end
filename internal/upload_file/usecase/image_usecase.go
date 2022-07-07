@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"Back-end/config"
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"Back-end/internal/upload_file/adapter"
+	"Back-end/internal/upload_file/model"
 )
 
 type serviceUpload struct {

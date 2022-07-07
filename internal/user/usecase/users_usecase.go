@@ -1,10 +1,11 @@
 package usecase
 
 import (
-	"Back-end/config"
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
 	"time"
+
+	"Back-end/config"
+	"Back-end/internal/user/adapter"
+	"Back-end/internal/user/model"
 
 	"golang.org/x/crypto/bcrypt"
 )

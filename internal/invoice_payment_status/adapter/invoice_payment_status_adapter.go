@@ -1,6 +1,6 @@
 package adapter
 
-import "Back-end/internal/model"
+import "Back-end/internal/invoice_payment_status/model"
 
 type AdapterPaymentStatusRepository interface {
 	CreateInvoicePaymentStatus(IPStatus model.InvoicePaymentStatus) error

@@ -4,13 +4,20 @@ import (
 	"fmt"
 	"log"
 
-	"gorm.io/gorm"
+	"Back-end/internal/generate/adapter"
+	invoice "Back-end/internal/invoice/model"
+	item "Back-end/internal/invoice_item/model"
+	transaction "Back-end/internal/payment_gateway/xendit/model"
+	send "Back-end/internal/send_customer/model"
 
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"gorm.io/gorm"
 )
 
-func (r *RepositoryMysqlLayer) CreateInvoicesGenerate(invoice []model.Invoice, item []model.InvoiceItem) error {
+type RepositoryMysqlLayer struct {
+	DB *gorm.DB
+}
+
+func (r *RepositoryMysqlLayer) CreateInvoicesGenerate(invoice []invoice.Invoice, item []item.InvoiceItem) error {
 	resInv := r.DB.Create(&invoice)
 	if resInv.RowsAffected < 1 {
 		return fmt.Errorf("error insert invoice")
@@ -24,7 +31,7 @@ func (r *RepositoryMysqlLayer) CreateInvoicesGenerate(invoice []model.Invoice, i
 	return nil
 }
 
-func (r *RepositoryMysqlLayer) NumberInvoiceExists(number string) (invoice model.Invoice, flag bool) {
+func (r *RepositoryMysqlLayer) NumberInvoiceExists(number string) (invoice invoice.Invoice, flag bool) {
 	res := r.DB.Where("number = ?", number).Find(&invoice)
 	flag = false
 	if res.RowsAffected > 0 {
@@ -34,7 +41,7 @@ func (r *RepositoryMysqlLayer) NumberInvoiceExists(number string) (invoice model
 	return
 }
 
-func (r *RepositoryMysqlLayer) CreateInvoiceGenerate(invoice model.Invoice) error {
+func (r *RepositoryMysqlLayer) CreateInvoiceGenerate(invoice invoice.Invoice) error {
 	resInv := r.DB.Create(&invoice)
 	if resInv.RowsAffected < 1 {
 		return fmt.Errorf("error insert invoice")
@@ -43,7 +50,7 @@ func (r *RepositoryMysqlLayer) CreateInvoiceGenerate(invoice model.Invoice) erro
 	return nil
 }
 
-func (r *RepositoryMysqlLayer) CreateInvoiceItemsGenerate(item model.InvoiceItem) error {
+func (r *RepositoryMysqlLayer) CreateInvoiceItemsGenerate(item item.InvoiceItem) error {
 	resItm := r.DB.Create(&item)
 	if resItm.RowsAffected < 1 {
 		return fmt.Errorf("error insert invoice item")
@@ -52,8 +59,8 @@ func (r *RepositoryMysqlLayer) CreateInvoiceItemsGenerate(item model.InvoiceItem
 	return nil
 }
 
-func (r *RepositoryMysqlLayer) CreateTransactionRecord(id int, record model.TransactionRecord) error {
-	var transaction model.TransactionRecord
+func (r *RepositoryMysqlLayer) CreateTransactionRecord(id int, record transaction.TransactionRecord) error {
+	var transaction transaction.TransactionRecord
 	res1 := r.DB.Where("id_invoice = ?", id).Find(&transaction)
 	if res1.RowsAffected < 1 {
 		res2 := r.DB.Create(&record)
@@ -72,7 +79,7 @@ func (r *RepositoryMysqlLayer) CreateTransactionRecord(id int, record model.Tran
 	return nil
 }
 
-func (r *RepositoryMysqlLayer) GetInvoices(id int) (inv model.Invoice, items []model.InvoiceItem, err error) {
+func (r *RepositoryMysqlLayer) GetInvoices(id int) (inv invoice.Invoice, items []item.InvoiceItem, err error) {
 	res1 := r.DB.Where("id = ?", id).Find(&inv)
 	if res1.RowsAffected < 1 {
 		log.Printf("not found invoice")
@@ -91,7 +98,7 @@ func (r *RepositoryMysqlLayer) GetInvoices(id int) (inv model.Invoice, items []m
 func (r *RepositoryMysqlLayer) GetTotalAmount(id int) (float32, error) {
 	var err error = nil
 	var total float32 = 0
-	var items []model.InvoiceItem
+	var items []item.InvoiceItem
 
 	res := r.DB.Where("id_invoice = ?", id).Find(&items)
 	if res.RowsAffected < 1 {
@@ -106,11 +113,20 @@ func (r *RepositoryMysqlLayer) GetTotalAmount(id int) (float32, error) {
 	return total, err
 }
 
-func (r *RepositoryMysqlLayer) UpdateStatusInvoice(id int, invoice model.Invoice) error {
+func (r *RepositoryMysqlLayer) UpdateStatusInvoice(id int, invoice invoice.Invoice) error {
 	res := r.DB.Where("id = ?", id).UpdateColumns(&invoice)
 	if res.RowsAffected < 1 {
 		log.Print("Error Update")
 		return fmt.Errorf("error update")
+	}
+
+	return nil
+}
+
+func (r *RepositoryMysqlLayer) SendEmail(message send.SendCustomer) error {
+	res := r.DB.Create(&message)
+	if res.RowsAffected < 1 {
+		return fmt.Errorf("error insert")
 	}
 
 	return nil

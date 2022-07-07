@@ -3,11 +3,15 @@ package repository
 import (
 	"fmt"
 
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"Back-end/internal/send_customer/adapter"
+	"Back-end/internal/send_customer/model"
 
 	"gorm.io/gorm"
 )
+
+type RepositoryMysqlLayer struct {
+	DB *gorm.DB
+}
 
 func (r *RepositoryMysqlLayer) SendEmail(message model.SendCustomer) error {
 	res := r.DB.Create(&message)

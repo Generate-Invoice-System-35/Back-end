@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"Back-end/internal/model"
 	"Back-end/internal/payment_gateway/xendit/adapter"
+	"Back-end/internal/payment_gateway/xendit/model"
 
 	"github.com/labstack/echo/v4"
 )

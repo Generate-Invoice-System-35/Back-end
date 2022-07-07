@@ -3,26 +3,13 @@ package route
 import (
 	"Back-end/config"
 	d "Back-end/database"
-	h "Back-end/internal/handler"
-	r "Back-end/internal/repository"
-	u "Back-end/internal/usecase"
+	h "Back-end/internal/upload_file/handler"
+	r "Back-end/internal/upload_file/repository"
+	u "Back-end/internal/upload_file/usecase"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
-
-func RegisterGenerateInvoiceGroupAPI(e *echo.Echo, conf config.Config) {
-	db := d.InitDB(conf)
-	repo := r.NewMysqlGenerateRepository(db)
-	service := u.NewServiceGenerate(repo, conf)
-	hand := h.EchoUploadCSVController{Service: service}
-
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-
-	e.POST("/generate/file", hand.GenerateFileController)
-	e.POST("/generate/invoices", hand.GenerateInvoicesController)
-}
 
 func RegisterUploadImageGroupAPI(e *echo.Echo, conf config.Config) {
 	db := d.InitDB(conf)

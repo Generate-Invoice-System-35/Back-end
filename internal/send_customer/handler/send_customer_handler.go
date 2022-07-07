@@ -1,9 +1,10 @@
 package handler
 
 import (
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
 	"net/http"
+
+	"Back-end/internal/send_customer/adapter"
+	"Back-end/internal/send_customer/model"
 
 	"github.com/labstack/echo/v4"
 )

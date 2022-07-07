@@ -1,7 +1,7 @@
 package adapter
 
 import (
-	"Back-end/internal/model"
+	"Back-end/internal/user/model"
 )
 
 type AdapterAuthRepository interface {

@@ -3,9 +3,9 @@ package route
 import (
 	"Back-end/config"
 	d "Back-end/database"
-	h "Back-end/internal/handler"
-	r "Back-end/internal/repository"
-	u "Back-end/internal/usecase"
+	h "Back-end/internal/auth/handler"
+	r "Back-end/internal/auth/repository"
+	u "Back-end/internal/auth/usecase"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

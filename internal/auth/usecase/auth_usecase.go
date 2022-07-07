@@ -5,9 +5,9 @@ import (
 	"time"
 
 	"Back-end/config"
-	"Back-end/internal/adapter"
-	"Back-end/internal/helper"
-	"Back-end/internal/model"
+	"Back-end/helper"
+	"Back-end/internal/auth/adapter"
+	"Back-end/internal/user/model"
 
 	"golang.org/x/crypto/bcrypt"
 )

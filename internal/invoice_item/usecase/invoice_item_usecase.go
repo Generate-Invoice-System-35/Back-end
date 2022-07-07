@@ -4,8 +4,8 @@ import (
 	"time"
 
 	"Back-end/config"
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"Back-end/internal/invoice_item/adapter"
+	"Back-end/internal/invoice_item/model"
 )
 
 type serviceInvoiceItem struct {

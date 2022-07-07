@@ -1,6 +1,6 @@
 package adapter
 
-import "Back-end/internal/model"
+import "Back-end/internal/invoice_item/model"
 
 type AdapterInvoiceItemRepository interface {
 	CreateInvoiceItem(item model.InvoiceItem) error

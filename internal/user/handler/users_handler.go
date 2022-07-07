@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/labstack/echo/v4"
+	"Back-end/internal/user/adapter"
+	"Back-end/internal/user/model"
 
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"github.com/labstack/echo/v4"
 )
 
 type EchoUserController struct {

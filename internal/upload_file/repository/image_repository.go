@@ -5,11 +5,15 @@ import (
 	"log"
 	"os"
 
-	"gorm.io/gorm"
+	"Back-end/internal/upload_file/adapter"
+	"Back-end/internal/upload_file/model"
 
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"gorm.io/gorm"
 )
+
+type RepositoryMysqlLayer struct {
+	DB *gorm.DB
+}
 
 func (r *RepositoryMysqlLayer) CreateImage(image model.File) error {
 	res := r.DB.Create(&image)

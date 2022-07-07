@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"Back-end/config"
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"Back-end/internal/send_customer/adapter"
+	"Back-end/internal/send_customer/model"
 
 	twilio "github.com/twilio/twilio-go"
 	openapi "github.com/twilio/twilio-go/rest/api/v2010"

@@ -1,6 +1,6 @@
 package adapter
 
-import "Back-end/internal/model"
+import "Back-end/internal/send_customer/model"
 
 type AdapterSendCustomerRepository interface {
 	SendEmail(message model.SendCustomer) error

@@ -5,8 +5,8 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"Back-end/internal/auth/adapter"
+	"Back-end/internal/user/model"
 )
 
 type EchoAuthController struct {

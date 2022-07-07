@@ -1,6 +1,6 @@
 package adapter
 
-import "Back-end/internal/model"
+import "Back-end/internal/invoice/model"
 
 type AdapterInvoiceRepository interface {
 	CreateInvoice(invoice model.Invoice) error

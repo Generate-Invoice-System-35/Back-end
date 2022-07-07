@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"Back-end/internal/invoice/adapter"
+	"Back-end/internal/invoice/model"
 
 	"github.com/labstack/echo/v4"
 )

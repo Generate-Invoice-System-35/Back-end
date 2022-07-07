@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"log"
 
-	"Back-end/internal/model"
+	invoice "Back-end/internal/invoice/model"
+	item "Back-end/internal/invoice_item/model"
 	"Back-end/internal/payment_gateway/xendit/adapter"
+	transaction "Back-end/internal/payment_gateway/xendit/model"
 
 	"gorm.io/gorm"
 )
@@ -14,8 +16,8 @@ type RepositoryMysqlLayer struct {
 	DB *gorm.DB
 }
 
-func (r *RepositoryMysqlLayer) CreateTransactionRecord(id int, record model.TransactionRecord) error {
-	var transaction model.TransactionRecord
+func (r *RepositoryMysqlLayer) CreateTransactionRecord(id int, record transaction.TransactionRecord) error {
+	var transaction transaction.TransactionRecord
 	res1 := r.DB.Where("id_invoice = ?", id).Find(&transaction)
 	if res1.RowsAffected < 1 {
 		res2 := r.DB.Create(&record)
@@ -34,7 +36,7 @@ func (r *RepositoryMysqlLayer) CreateTransactionRecord(id int, record model.Tran
 	return nil
 }
 
-func (r *RepositoryMysqlLayer) GetIDInvoicePayment(id int) (record model.TransactionRecord, err error) {
+func (r *RepositoryMysqlLayer) GetIDInvoicePayment(id int) (record transaction.TransactionRecord, err error) {
 	res := r.DB.Where("id_invoice = ?", id).Find(&record)
 	if res.RowsAffected < 1 {
 		log.Printf("not found invoice")
@@ -44,7 +46,7 @@ func (r *RepositoryMysqlLayer) GetIDInvoicePayment(id int) (record model.Transac
 	return
 }
 
-func (r *RepositoryMysqlLayer) GetInvoices(id int) (inv model.Invoice, items []model.InvoiceItem, err error) {
+func (r *RepositoryMysqlLayer) GetInvoices(id int) (inv invoice.Invoice, items []item.InvoiceItem, err error) {
 	res1 := r.DB.Where("id = ?", id).Find(&inv)
 	if res1.RowsAffected < 1 {
 		log.Printf("not found invoice")
@@ -63,7 +65,7 @@ func (r *RepositoryMysqlLayer) GetInvoices(id int) (inv model.Invoice, items []m
 func (r *RepositoryMysqlLayer) GetTotalAmount(id int) (float32, error) {
 	var err error = nil
 	var total float32 = 0
-	var items []model.InvoiceItem
+	var items []item.InvoiceItem
 
 	res := r.DB.Where("id_invoice = ?", id).Find(&items)
 	if res.RowsAffected < 1 {
@@ -78,7 +80,7 @@ func (r *RepositoryMysqlLayer) GetTotalAmount(id int) (float32, error) {
 	return total, err
 }
 
-func (r *RepositoryMysqlLayer) UpdateStatusInvoice(id int, invoice model.Invoice) error {
+func (r *RepositoryMysqlLayer) UpdateStatusInvoice(id int, invoice invoice.Invoice) error {
 	res := r.DB.Where("id = ?", id).UpdateColumns(&invoice)
 	if res.RowsAffected < 1 {
 		log.Print("Error Update")

@@ -8,8 +8,11 @@ import (
 	"time"
 
 	"Back-end/config"
-	"Back-end/internal/adapter"
-	"Back-end/internal/model"
+	"Back-end/internal/generate/adapter"
+	invoices "Back-end/internal/invoice/model"
+	item "Back-end/internal/invoice_item/model"
+	transaction "Back-end/internal/payment_gateway/xendit/model"
+	send "Back-end/internal/send_customer/model"
 
 	"github.com/xendit/xendit-go"
 	"github.com/xendit/xendit-go/invoice"
@@ -28,8 +31,8 @@ func (s *serviceGenerate) GenerateFileService(data [][]string) error {
 	for i, line := range data {
 		if i > 0 {
 			var flag bool
-			var recInv model.Invoice
-			var recItm model.InvoiceItem
+			var recInv invoices.Invoice
+			var recItm item.InvoiceItem
 
 			// INVOICE
 			recInv, flag = s.repo.NumberInvoiceExists(line[0])
@@ -173,11 +176,11 @@ func (s *serviceGenerate) GenerateInvoiceService(ids []int) error {
 			return err
 		}
 
-		var statusInvoice model.Invoice
+		var statusInvoice invoices.Invoice
 		statusInvoice.ID_Payment_Status = 2
 		s.repo.UpdateStatusInvoice(inv.ID, statusInvoice)
 
-		transaction := model.TransactionRecord{
+		transaction := transaction.TransactionRecord{
 			ID_Invoice:         inv.ID,
 			ID_Invoice_Payment: resp.ID,
 			ID_User_Payment:    resp.UserID,
@@ -222,7 +225,7 @@ func (s *serviceGenerate) GenerateInvoiceService(ids []int) error {
 			log.Fatal(err)
 		}
 
-		msg := model.SendCustomer{
+		msg := send.SendCustomer{
 			To:         dest,
 			Subject:    subject,
 			Body:       body,
