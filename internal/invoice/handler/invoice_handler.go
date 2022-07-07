@@ -82,6 +82,17 @@ func (ce *EchoInvoiceController) GetInvoiceController(c echo.Context) error {
 	return c.JSONPretty(http.StatusOK, invoice, " ")
 }
 
+// GetInvoicesByPaymentStatusController godoc
+// @Summary      Get Invoice Information by Payment Status
+// @Description  User can get invoice information by payment status
+// @Tags         Invoice
+// @accept       json
+// @Produce      json
+// @Router       /invoice/status/{id} [get]
+// @param        id    path      int            true  "id"
+// @Success      200  {object}  model.Invoice
+// @Failure      404  {object}  model.Invoice
+// @Security     JWT
 func (ce *EchoInvoiceController) GetInvoicesByPaymentStatusController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
@@ -96,6 +107,17 @@ func (ce *EchoInvoiceController) GetInvoicesByPaymentStatusController(c echo.Con
 	return c.JSONPretty(http.StatusOK, invoices, " ")
 }
 
+// GetInvoicesByNameCustomerController godoc
+// @Summary      Get Invoice Information by Search Name Customer
+// @Description  User can get invoice information by search name customer
+// @Tags         Invoice
+// @accept       json
+// @Produce      json
+// @Router       /invoice/search [post]
+// @param        data body      model.Invoice  true  "required"
+// @Success      200  {object}  model.Invoice
+// @Failure      404  {object}  model.Invoice
+// @Security     JWT
 func (ce *EchoInvoiceController) GetInvoicesByNameCustomerController(c echo.Context) error {
 	type Keyword struct {
 		Name string `json:"name" form:"name"`

@@ -1,4 +1,43 @@
 definitions:
+  model.CallbackInvoice:
+    properties:
+      amount:
+        type: integer
+      bank_code:
+        type: string
+      created:
+        type: string
+      currency:
+        type: string
+      description:
+        type: string
+      external_id:
+        type: string
+      id:
+        type: string
+      is_high:
+        type: boolean
+      merchant_name:
+        type: string
+      paid_amount:
+        type: integer
+      paid_at:
+        type: string
+      payer_email:
+        type: string
+      payment_channel:
+        type: string
+      payment_destination:
+        type: string
+      payment_method:
+        type: string
+      status:
+        type: string
+      updated:
+        type: string
+      user_id:
+        type: string
+    type: object
   model.File:
     properties:
       created_at:
@@ -84,6 +123,19 @@ definitions:
       updated_at:
         type: string
     type: object
+  model.TransactionRecord:
+    properties:
+      created_at:
+        type: string
+      id_invoice:
+        type: integer
+      id_invoice_payment:
+        type: string
+      id_user_payment:
+        type: string
+      updated_at:
+        type: string
+    type: object
   model.User:
     properties:
       address:
@@ -136,6 +188,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/model.Invoice'
+      security:
+      - JWT: []
       summary: Generate File Invoices
       tags:
       - Invoice
@@ -162,6 +216,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/model.Invoice'
+      security:
+      - JWT: []
       summary: Generate Invoices
       tags:
       - Invoice
@@ -337,6 +393,33 @@ paths:
       security:
       - JWT: []
       summary: Update Invoice Item Information
+      tags:
+      - Invoice Item
+  /invoice-item/number/{number}:
+    get:
+      consumes:
+      - application/json
+      description: User can get invoice item information by number invoices
+      parameters:
+      - description: id
+        in: path
+        name: number
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.InvoiceItem'
+      security:
+      - JWT: []
+      summary: Get Invoice Item Information by Number Invoices
       tags:
       - Invoice Item
   /invoice-payment-status:
@@ -553,6 +636,61 @@ paths:
       summary: Update Invoice Information
       tags:
       - Invoice
+  /invoice/search:
+    post:
+      consumes:
+      - application/json
+      description: User can get invoice information by search name customer
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Invoice'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Invoice'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.Invoice'
+      security:
+      - JWT: []
+      summary: Get Invoice Information by Search Name Customer
+      tags:
+      - Invoice
+  /invoice/status/{id}:
+    get:
+      consumes:
+      - application/json
+      description: User can get invoice information by payment status
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Invoice'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.Invoice'
+      security:
+      - JWT: []
+      summary: Get Invoice Information by Payment Status
+      tags:
+      - Invoice
   /login:
     post:
       consumes:
@@ -572,10 +710,6 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.User'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.User'
         "401":
           description: Unauthorized
           schema:
@@ -587,6 +721,143 @@ paths:
       summary: Login User
       tags:
       - User
+  /payment/xendit/invoice:
+    get:
+      consumes:
+      - application/json
+      description: User can get all xendit payment invoice
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.TransactionRecord'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TransactionRecord'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.TransactionRecord'
+      security:
+      - JWT: []
+      summary: Get All Xendit Payment Invoice
+      tags:
+      - TransactionRecord
+  /payment/xendit/invoice/{id}:
+    get:
+      consumes:
+      - application/json
+      description: User can get xendit payment invoice by id
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TransactionRecord'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.TransactionRecord'
+      security:
+      - JWT: []
+      summary: Get Xendit Payment Invoice By ID
+      tags:
+      - TransactionRecord
+    post:
+      consumes:
+      - application/json
+      description: User can create payment invoice by using xendit
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TransactionRecord'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.TransactionRecord'
+      security:
+      - JWT: []
+      summary: Create Payment Invoice Using Xendit
+      tags:
+      - TransactionRecord
+  /payment/xendit/invoice/callback:
+    post:
+      consumes:
+      - application/json
+      description: Xendit can callback by this route if customer is have been paying
+        or the invoice is expired
+      parameters:
+      - description: required
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.CallbackInvoice'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.CallbackInvoice'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.CallbackInvoice'
+      security:
+      - JWT: []
+      summary: Xendit can Callback By Using This Route
+      tags:
+      - CallbackInvoice
+  /payment/xendit/invoice/expire/{id}:
+    get:
+      consumes:
+      - application/json
+      description: User can expired xendit payment invoice
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TransactionRecord'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.TransactionRecord'
+      security:
+      - JWT: []
+      summary: Expired Xendit Payment Invoice
+      tags:
+      - TransactionRecord
   /register:
     post:
       consumes:
@@ -606,8 +877,8 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/model.User'
-        "400":
-          description: Bad Request
+        "417":
+          description: Expectation Failed
           schema:
             $ref: '#/definitions/model.User'
         "500":
@@ -663,12 +934,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.User'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.User'
-        "500":
-          description: Internal Server Error
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/model.User'
       security:
@@ -694,12 +961,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.User'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.User'
-        "500":
-          description: Internal Server Error
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/model.User'
       security:
@@ -789,8 +1052,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.File'
-        "404":
-          description: Not Found
+        "500":
+          description: Internal Server Error
           schema:
             $ref: '#/definitions/model.File'
       summary: Get Image Information by Id
@@ -838,10 +1101,6 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.User'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.User'
       security:
       - JWT: []
       summary: Get All User
@@ -865,12 +1124,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.User'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.User'
-        "500":
-          description: Internal Server Error
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/model.User'
       security:
@@ -895,8 +1150,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.User'
-        "400":
-          description: Bad Request
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/model.User'
       security:
@@ -921,12 +1176,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.User'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/model.User'
-        "500":
-          description: Internal Server Error
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/model.User'
       security:

@@ -22,7 +22,7 @@ type EchoAuthController struct {
 // @Router       /register [post]
 // @param        data  body      model.User  true  "required"
 // @Success      201   {object}  model.User
-// @Failure      400   {object}  model.User
+// @Failure      417   {object}  model.User
 // @Failure      500   {object}  model.User
 func (ce *EchoAuthController) RegisterController(c echo.Context) error {
 	user := model.User{}
@@ -55,7 +55,6 @@ func (ce *EchoAuthController) RegisterController(c echo.Context) error {
 // @Router       /login [post]
 // @Param        data  body      model.User  true  "required"
 // @Success      200   {object}  model.User
-// @Success      400   {object}  model.User
 // @Failure      401   {object}  model.User
 // @Failure      500   {object}  model.User
 func (ce *EchoAuthController) LoginController(c echo.Context) error {
