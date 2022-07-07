@@ -5,10 +5,17 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	conf "Back-end/config"
-	docs "Back-end/docs"
-	xendit "Back-end/internal/payment_gateway/xendit/route"
-	rest "Back-end/internal/route"
+	"Back-end/config"
+	"Back-end/docs"
+	auth "Back-end/internal/auth/route"
+	generate "Back-end/internal/generate/route"
+	invoice "Back-end/internal/invoice/route"
+	item "Back-end/internal/invoice_item/route"
+	status "Back-end/internal/invoice_payment_status/route"
+	payment "Back-end/internal/payment_gateway/xendit/route"
+	send "Back-end/internal/send_customer/route"
+	image "Back-end/internal/upload_file/route"
+	user "Back-end/internal/user/route"
 
 	echoSwag "github.com/swaggo/echo-swagger"
 )
@@ -23,20 +30,20 @@ import (
 // @in                          header
 // @name                        Authorization
 func main() {
-	config := conf.InitConfig()
+	config := config.InitConfig()
 	e := echo.New()
 
 	e.Static("storage", "storage")
 
-	rest.RegisterAuthGroupAPI(e, config)
-	rest.RegisterUserGroupAPI(e, config)
-	rest.RegisterUploadImageGroupAPI(e, config)
-	rest.RegisterGenerateInvoiceGroupAPI(e, config)
-	rest.RegisterInvoiceGroupAPI(e, config)
-	rest.RegisterInvoiceItemGroupAPI(e, config)
-	rest.RegisterSendCustomerGroupAPI(e, config)
-	rest.RegisterInvoicePaymentStatusGroupAPI(e, config)
-	xendit.RegisterPaymentGatewayGroupAPI(e, config)
+	auth.RegisterAuthGroupAPI(e, config)
+	user.RegisterUserGroupAPI(e, config)
+	image.RegisterUploadImageGroupAPI(e, config)
+	generate.RegisterGenerateInvoiceGroupAPI(e, config)
+	invoice.RegisterInvoiceGroupAPI(e, config)
+	item.RegisterInvoiceItemGroupAPI(e, config)
+	send.RegisterSendCustomerGroupAPI(e, config)
+	status.RegisterInvoicePaymentStatusGroupAPI(e, config)
+	payment.RegisterPaymentGatewayGroupAPI(e, config)
 
 	e.GET("/swagger/*", echoSwag.WrapHandler)
 	docs.SwaggerInfo.Host = os.Getenv("APP_HOST")

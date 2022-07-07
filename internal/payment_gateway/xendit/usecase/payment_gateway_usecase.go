@@ -7,8 +7,9 @@ import (
 	"time"
 
 	"Back-end/config"
-	"Back-end/internal/model"
+	invoices "Back-end/internal/invoice/model"
 	"Back-end/internal/payment_gateway/xendit/adapter"
+	transaction "Back-end/internal/payment_gateway/xendit/model"
 
 	"github.com/xendit/xendit-go"
 	"github.com/xendit/xendit-go/invoice"
@@ -113,11 +114,11 @@ func (s *servicePaymentGateway) CreateXenditPaymentInvoiceService(id int) (*xend
 		return resp, err
 	}
 
-	var statusInvoice model.Invoice
+	var statusInvoice invoices.Invoice
 	statusInvoice.ID_Payment_Status = 2
 	s.repo.UpdateStatusInvoice(inv.ID, statusInvoice)
 
-	transaction := model.TransactionRecord{
+	transaction := transaction.TransactionRecord{
 		ID_Invoice:         inv.ID,
 		ID_Invoice_Payment: resp.ID,
 		ID_User_Payment:    resp.UserID,
@@ -179,7 +180,7 @@ func (s *servicePaymentGateway) GetAllXenditPaymentInvoiceService() ([]xendit.In
 }
 
 func (s *servicePaymentGateway) ExpireXenditPaymentInvoiceService(id int) (*xendit.Invoice, error) {
-	var statusInvoice model.Invoice
+	var statusInvoice invoices.Invoice
 
 	xendit.Opt.SecretKey = XENDIT_SECRET_KEY
 
@@ -206,8 +207,8 @@ func (s *servicePaymentGateway) ExpireXenditPaymentInvoiceService(id int) (*xend
 	return resp, nil
 }
 
-func (s *servicePaymentGateway) CallbackXenditPaymentInvoiceService(callback model.CallbackInvoice) error {
-	var statusInvoice model.Invoice
+func (s *servicePaymentGateway) CallbackXenditPaymentInvoiceService(callback transaction.CallbackInvoice) error {
+	var statusInvoice invoices.Invoice
 
 	StringID := callback.ExternalID
 	ID, _ := strconv.Atoi(StringID)
