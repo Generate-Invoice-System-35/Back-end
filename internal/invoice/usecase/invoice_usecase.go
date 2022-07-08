@@ -27,6 +27,10 @@ func (s *serviceInvoice) GetInvoiceByIDService(id int) (model.Invoice, error) {
 	return s.repo.GetInvoiceByID(id)
 }
 
+func (s *serviceInvoice) GetInvoicesPaginationService(pagination model.Pagination) ([]model.Invoice, error) {
+	return s.repo.GetInvoicesPagination(pagination)
+}
+
 func (s *serviceInvoice) GetInovicesByPaymentStatusService(status int) ([]model.Invoice, error) {
 	return s.repo.GetInvoicesByPaymentStatus(status)
 }

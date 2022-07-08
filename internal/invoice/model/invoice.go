@@ -16,3 +16,9 @@ type Invoice struct {
 	Created_At        time.Time `json:"created_at" form:"created_at"`
 	Updated_At        time.Time `json:"updated_at" form:"updated_at"`
 }
+
+type Pagination struct {
+	Limit int    `json:"limit" form:"limit"`
+	Page  int    `json:"page" form:"page"`
+	Sort  string `json:"sort" form:"sort"`
+}

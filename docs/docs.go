@@ -123,7 +123,7 @@ const docTemplate = `{
                 "tags": [
                     "Invoice"
                 ],
-                "summary": "Get All Invoice Information",
+                "summary": "Get All Invoices Information",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -625,6 +625,40 @@ const docTemplate = `{
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/model.InvoicePaymentStatus"
+                        }
+                    }
+                }
+            }
+        },
+        "/invoice/pagination": {
+            "post": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "User can get invoices information by limit, page, and sort settings",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Invoice"
+                ],
+                "summary": "Get Invoices Information By Pagination",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Invoice"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/model.Invoice"
                         }
                     }
                 }

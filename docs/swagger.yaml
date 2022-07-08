@@ -235,7 +235,7 @@ paths:
             $ref: '#/definitions/model.Invoice'
       security:
       - JWT: []
-      summary: Get All Invoice Information
+      summary: Get All Invoices Information
       tags:
       - Invoice
     post:
@@ -634,6 +634,27 @@ paths:
       security:
       - JWT: []
       summary: Update Invoice Information
+      tags:
+      - Invoice
+  /invoice/pagination:
+    post:
+      consumes:
+      - application/json
+      description: User can get invoices information by limit, page, and sort settings
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Invoice'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.Invoice'
+      security:
+      - JWT: []
+      summary: Get Invoices Information By Pagination
       tags:
       - Invoice
   /invoice/search:

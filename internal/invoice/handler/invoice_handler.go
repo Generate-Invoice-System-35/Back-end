@@ -43,7 +43,7 @@ func (ce *EchoInvoiceController) CreateInvoiceController(c echo.Context) error {
 }
 
 // GetInvoicesController godoc
-// @Summary      Get All Invoice Information
+// @Summary      Get All Invoices Information
 // @Description  User can get all invoices information
 // @Tags         Invoice
 // @accept       json
@@ -53,6 +53,35 @@ func (ce *EchoInvoiceController) CreateInvoiceController(c echo.Context) error {
 // @Security     JWT
 func (ce *EchoInvoiceController) GetInvoicesController(c echo.Context) error {
 	invoices := ce.Service.GetAllInvoicesService()
+
+	return c.JSONPretty(http.StatusOK, invoices, " ")
+}
+
+// GetInvoicesPaginationController godoc
+// @Summary      Get Invoices Information By Pagination
+// @Description  User can get invoices information by limit, page, and sort settings
+// @Tags         Invoice
+// @accept       json
+// @Produce      json
+// @Router       /invoice/pagination [post]
+// @Success      200   {object}  model.Invoice
+// @Failure      404   {object}  model.Invoice
+// @Security     JWT
+func (ce *EchoInvoiceController) GetInvoicesPaginationController(c echo.Context) error {
+	// Initializing Default
+	pagination := model.Pagination{
+		Limit: 5,
+		Page:  1,
+		Sort:  "created_at asc",
+	}
+
+	c.Bind(&pagination)
+	invoices, err := ce.Service.GetInvoicesPaginationService(pagination)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"message": "no id",
+		})
+	}
 
 	return c.JSONPretty(http.StatusOK, invoices, " ")
 }
