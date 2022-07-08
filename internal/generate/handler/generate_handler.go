@@ -23,6 +23,7 @@ type EchoUploadCSVController struct {
 // @param        data  body      model.Invoice  true  "required"
 // @Success      201   {object}  model.Invoice
 // @Failure      500   {object}  model.Invoice
+// @Security     JWT
 func (ce *EchoUploadCSVController) GenerateFileController(c echo.Context) error {
 	//-----------
 	// Read file
@@ -80,6 +81,7 @@ func (ce *EchoUploadCSVController) GenerateFileController(c echo.Context) error 
 // @param        data  body      model.Invoice  true  "required"
 // @Success      201   {object}  model.Invoice
 // @Failure      500   {object}  model.Invoice
+// @Security     JWT
 func (ce *EchoUploadCSVController) GenerateInvoicesController(c echo.Context) error {
 	type Data struct {
 		IDS []int `json:"ids" form:"ids"`

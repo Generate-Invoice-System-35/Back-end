@@ -38,6 +38,17 @@ func (r *RepositoryMysqlLayer) GetInvoiceByID(id int) (invoice model.Invoice, er
 	return
 }
 
+func (r *RepositoryMysqlLayer) GetInvoicesPagination(pagination model.Pagination) (invoice []model.Invoice, err error) {
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuilder := r.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	res := queryBuilder.Model(&model.Invoice{}).Where(invoice).Find(&invoice)
+	if res.RowsAffected < 1 {
+		err = fmt.Errorf("not found")
+	}
+
+	return
+}
+
 func (r *RepositoryMysqlLayer) GetInvoicesByPaymentStatus(status int) (invoice []model.Invoice, err error) {
 	res := r.DB.Where("id_payment_status = ?", status).Find(&invoice)
 	if res.RowsAffected < 1 {

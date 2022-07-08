@@ -17,6 +17,17 @@ type EchoPaymentGatewayController struct {
 	Service adapter.AdapterPaymentGatewayService
 }
 
+// CreateXenditPaymentInvoiceController godoc
+// @Summary      Create Payment Invoice Using Xendit
+// @Description  User can create payment invoice by using xendit
+// @Tags         TransactionRecord
+// @accept       json
+// @Produce      json
+// @Router       /payment/xendit/invoice/{id} [post]
+// @param        id   path      int  true  "id"
+// @Success      200   {object}  model.TransactionRecord
+// @Failure      404   {object}  model.TransactionRecord
+// @Security     JWT
 func (ce *EchoPaymentGatewayController) CreateXenditPaymentInvoiceController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
@@ -32,6 +43,17 @@ func (ce *EchoPaymentGatewayController) CreateXenditPaymentInvoiceController(c e
 	return c.JSONPretty(http.StatusOK, resp, " ")
 }
 
+// GetXenditPaymentInvoiceController godoc
+// @Summary      Get Xendit Payment Invoice By ID
+// @Description  User can get xendit payment invoice by id
+// @Tags         TransactionRecord
+// @accept       json
+// @Produce      json
+// @Router       /payment/xendit/invoice/{id} [get]
+// @param        id   path      int  true  "id"
+// @Success      200   {object}  model.TransactionRecord
+// @Failure      404   {object}  model.TransactionRecord
+// @Security     JWT
 func (ce *EchoPaymentGatewayController) GetXenditPaymentInvoiceController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
@@ -47,6 +69,17 @@ func (ce *EchoPaymentGatewayController) GetXenditPaymentInvoiceController(c echo
 	return c.JSONPretty(http.StatusOK, resp, " ")
 }
 
+// GetAllXenditPaymentInvoiceController godoc
+// @Summary      Get All Xendit Payment Invoice
+// @Description  User can get all xendit payment invoice
+// @Tags         TransactionRecord
+// @accept       json
+// @Produce      json
+// @Router       /payment/xendit/invoice [get]
+// @param        data  body      model.TransactionRecord  true  "required"
+// @Success      200   {object}  model.TransactionRecord
+// @Failure      404   {object}  model.TransactionRecord
+// @Security     JWT
 func (ce *EchoPaymentGatewayController) GetAllXenditPaymentInvoiceController(c echo.Context) error {
 	resp, err := ce.Service.GetAllXenditPaymentInvoiceService()
 	if err != nil {
@@ -59,6 +92,17 @@ func (ce *EchoPaymentGatewayController) GetAllXenditPaymentInvoiceController(c e
 	return c.JSONPretty(http.StatusOK, resp, " ")
 }
 
+// ExpireXenditPaymentInvoiceController godoc
+// @Summary      Expired Xendit Payment Invoice
+// @Description  User can expired xendit payment invoice
+// @Tags         TransactionRecord
+// @accept       json
+// @Produce      json
+// @Router       /payment/xendit/invoice/expire/{id} [get]
+// @param        id    path      int  true  "id"
+// @Success      200   {object}  model.TransactionRecord
+// @Failure      404   {object}  model.TransactionRecord
+// @Security     JWT
 func (ce *EchoPaymentGatewayController) ExpireXenditPaymentInvoiceController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
@@ -74,6 +118,17 @@ func (ce *EchoPaymentGatewayController) ExpireXenditPaymentInvoiceController(c e
 	return c.JSONPretty(http.StatusOK, resp, " ")
 }
 
+// CallbackXenditPaymentInvoiceController godoc
+// @Summary      Xendit can Callback By Using This Route
+// @Description  Xendit can callback by this route if customer is have been paying or the invoice is expired
+// @Tags         CallbackInvoice
+// @accept       json
+// @Produce      json
+// @Router       /payment/xendit/invoice/callback [post]
+// @param        data  body      model.CallbackInvoice  true  "required"
+// @Success      200   {object}  model.CallbackInvoice
+// @Failure      404   {object}  model.CallbackInvoice
+// @Security     JWT
 func (ce *EchoPaymentGatewayController) CallbackXenditPaymentInvoiceController(c echo.Context) error {
 	invoiceCallback := model.CallbackInvoice{}
 	c.Bind(&invoiceCallback)

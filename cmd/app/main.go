@@ -33,7 +33,7 @@ func main() {
 	config := config.InitConfig()
 	e := echo.New()
 
-	e.Static("storage", "storage")
+	e.Static("images", "public")
 
 	auth.RegisterAuthGroupAPI(e, config)
 	user.RegisterUserGroupAPI(e, config)

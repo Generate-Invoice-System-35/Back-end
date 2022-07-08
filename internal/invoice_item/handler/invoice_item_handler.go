@@ -82,6 +82,30 @@ func (ce *EchoInvoiceItemController) GetInvoiceItemController(c echo.Context) er
 	return c.JSONPretty(http.StatusOK, item, " ")
 }
 
+// GetInvoiceItemsByNumberController godoc
+// @Summary      Get Invoice Item Information by Number Invoices
+// @Description  User can get invoice item information by number invoices
+// @Tags         Invoice Item
+// @accept       json
+// @Produce      json
+// @Router       /invoice-item/number/{number} [get]
+// @param        number	path      int                true  "id"
+// @Success      200  	{object}  model.InvoiceItem
+// @Failure      404  	{object}  model.InvoiceItem
+// @Security     JWT
+func (ce *EchoInvoiceItemController) GetInvoiceItemsByNumberController(c echo.Context) error {
+	number := c.Param("number")
+
+	items, err := ce.Service.GetInvoiceItemByNumberService(number)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"message": "no number",
+		})
+	}
+
+	return c.JSONPretty(http.StatusOK, items, " ")
+}
+
 // UpdateInvoiceItemController godoc
 // @Summary      Update Invoice Item Information
 // @Description  User can update invoice item information
@@ -90,9 +114,9 @@ func (ce *EchoInvoiceItemController) GetInvoiceItemController(c echo.Context) er
 // @Produce      json
 // @Router       /invoice-item/{id} [put]
 // @param        id   path      int  true  "id"
-// @param        data  body      model.InvoiceItem  true  "required"
+// @param        data body      model.InvoiceItem  true  "required"
 // @Success      200  {object}  model.InvoiceItem
-// @Failure      500   {object}  model.InvoiceItem
+// @Failure      500  {object}  model.InvoiceItem
 // @Security     JWT
 func (ce *EchoInvoiceItemController) UpdateInvoiceItemController(c echo.Context) error {
 	id := c.Param("id")

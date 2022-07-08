@@ -20,6 +20,6 @@ func RegisterGenerateInvoiceGroupAPI(e *echo.Echo, conf config.Config) {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.POST("/generate/file", hand.GenerateFileController)
-	e.POST("/generate/invoices", hand.GenerateInvoicesController)
+	e.POST("/generate/file", hand.GenerateFileController, middleware.JWT([]byte(conf.JWT_KEY)))
+	e.POST("/generate/invoices", hand.GenerateInvoicesController, middleware.JWT([]byte(conf.JWT_KEY)))
 }

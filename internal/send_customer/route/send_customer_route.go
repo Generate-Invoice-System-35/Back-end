@@ -23,5 +23,4 @@ func RegisterSendCustomerGroupAPI(e *echo.Echo, conf config.Config) {
 	)
 
 	apiSend.POST("/email", hand.SendEmailController)
-	apiSend.POST("/whatsapp", hand.SendWhatsappController)
 }

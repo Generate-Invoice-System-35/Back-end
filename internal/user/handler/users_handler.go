@@ -22,7 +22,6 @@ type EchoUserController struct {
 // @Produce      json
 // @Router       /user [get]
 // @Success      200  {object}  model.User
-// @Failure      400  {object}  model.User
 // @Security     JWT
 func (ce *EchoUserController) GetUsersController(c echo.Context) error {
 	users := ce.Service.GetAllUsersService()
@@ -39,7 +38,7 @@ func (ce *EchoUserController) GetUsersController(c echo.Context) error {
 // @Router       /user/{id} [get]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.User
-// @Failure      400  {object}  model.User
+// @Failure      404  {object}  model.User
 // @Security     JWT
 func (ce *EchoUserController) GetUserController(c echo.Context) error {
 	id := c.Param("id")
@@ -64,8 +63,7 @@ func (ce *EchoUserController) GetUserController(c echo.Context) error {
 // @Router       /user/{id} [put]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.User
-// @Failure      400  {object}  model.User
-// @Failure      500  {object}  model.User
+// @Failure      404  {object}  model.User
 // @Security     JWT
 func (ce *EchoUserController) UpdateUserController(c echo.Context) error {
 	id := c.Param("id")
@@ -97,8 +95,7 @@ func (ce *EchoUserController) UpdateUserController(c echo.Context) error {
 // @Router       /user/{id} [delete]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.User
-// @Failure      400  {object}  model.User
-// @Failure      500  {object}  model.User
+// @Failure      404  {object}  model.User
 // @Security     JWT
 func (ce *EchoUserController) DeleteUsercontroller(c echo.Context) error {
 	id := c.Param("id")
@@ -125,16 +122,16 @@ func (ce *EchoUserController) DeleteUsercontroller(c echo.Context) error {
 // @Router       /update/username/{id} [put]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.User
-// @Failure      400  {object}  model.User
-// @Failure      500  {object}  model.User
+// @Failure      404  {object}  model.User
 // @Security     JWT
 func (ce *EchoUserController) ChangeUsernameController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
 
-	var username string
-	c.Bind(&username)
+	user := model.User{}
+	c.Bind(&user)
 
+	username := user.Username
 	err := ce.Service.UpdateUsernameService(intID, username)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{
@@ -156,16 +153,16 @@ func (ce *EchoUserController) ChangeUsernameController(c echo.Context) error {
 // @Router       /update/password/{id} [put]
 // @param        id   path      int  true  "id"
 // @Success      200  {object}  model.User
-// @Failure      400  {object}  model.User
-// @Failure      500  {object}  model.User
+// @Failure      404  {object}  model.User
 // @Security     JWT
 func (ce *EchoUserController) ChangePasswordController(c echo.Context) error {
 	id := c.Param("id")
 	intID, _ := strconv.Atoi(id)
 
-	var password string
-	c.Bind(&password)
+	user := model.User{}
+	c.Bind(&user)
 
+	password := user.Password
 	err := ce.Service.UpdatePasswordService(intID, password)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, map[string]interface{}{

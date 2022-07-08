@@ -97,7 +97,7 @@ func (ce *EchoUploadImageController) GetImagesController(c echo.Context) error {
 // @Router       /upload-image/{id} [get]
 // @param        id    path      int         true  "id"
 // @Success      200  {object}  model.File
-// @Failure      404  {object}  model.File
+// @Failure      500  {object}  model.File
 func (ce *EchoUploadImageController) GetImageController(c echo.Context) error {
 	// Get ID Param
 	id := c.Param("id")
@@ -110,7 +110,7 @@ func (ce *EchoUploadImageController) GetImageController(c echo.Context) error {
 		})
 	}
 
-	return c.JSONPretty(http.StatusCreated, image, " ")
+	return c.JSONPretty(http.StatusOK, image, " ")
 }
 
 // UpdateImageController godoc
@@ -168,7 +168,7 @@ func (ce *EchoUploadImageController) UpdateImageController(c echo.Context) error
 		})
 	}
 
-	return c.JSON(http.StatusCreated, map[string]interface{}{
+	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "uploaded",
 		"detail":  img,
 	})
