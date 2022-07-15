@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -61,7 +62,7 @@ func (ce *EchoUserController) GetUserByTokenController(c echo.Context) error {
 	}
 	input := Input{}
 	c.Bind(&input)
-
+	fmt.Println(input)
 	result, err := helper.ExtractToken(input.Token)
 	if !err {
 		return c.JSON(http.StatusExpectationFailed, map[string]interface{}{

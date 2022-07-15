@@ -1,10 +1,10 @@
 package helper
 
 import (
+	"Back-end/config"
+	"fmt"
 	"log"
 	"time"
-
-	"Back-end/config"
 
 	"github.com/golang-jwt/jwt"
 )
@@ -22,14 +22,15 @@ func CreateToken(id int, email, secret string) (string, error) {
 }
 
 func ExtractToken(tokenString string) (jwt.MapClaims, bool) {
-	data := config.Config{}
-	secretString := data.JWT_KEY
-	secret := []byte(secretString)
+	// data := config.Config{}
+	// secretString := data.JWT_KEY
+	secret := []byte(config.ConfigGlobal.JWT_KEY)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return secret, nil
 	})
 
 	if err != nil {
+		fmt.Println("Terdapat Error : ", err)
 		return nil, false
 	}
 

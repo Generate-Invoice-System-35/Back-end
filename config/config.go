@@ -12,8 +12,10 @@ type Config struct {
 	JWT_KEY        string
 }
 
+var ConfigGlobal Config
+
 func InitConfig() Config {
-	return Config{
+	ConfigGlobal = Config{
 		SERVER_ADDRESS: GetOrDefault("SERVER_ADDRESS", "0.0.0.0:8888"),
 		DB_USERNAME:    GetOrDefault("DB_USERNAME", "root"),
 		DB_PASSWORD:    GetOrDefault("DB_PASSWORD", ""),
@@ -22,6 +24,7 @@ func InitConfig() Config {
 		DB_HOST:        GetOrDefault("DB_HOST", "127.0.0.1"),
 		JWT_KEY:        GetOrDefault("JWT_KEY", "AlphaWolf"),
 	}
+	return ConfigGlobal
 	// return Config{
 	// 	SERVER_ADDRESS: GetOrDefault("SERVER_ADDRESS", "0.0.0.0:8888"),
 	// 	DB_USERNAME:    GetOrDefault("DB_USERNAME", "invoice-backend"),
