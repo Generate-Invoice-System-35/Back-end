@@ -35,6 +35,7 @@ func RegisterUserGroupAPI(e *echo.Echo, conf config.Config) {
 	// ))
 	apiUser.GET("", hand.GetUsersController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiUser.GET("/:id", hand.GetUserController, middleware.JWT([]byte(conf.JWT_KEY)))
+	apiUser.POST("/token", hand.GetUserByTokenController)
 	apiUser.PUT("/:id", hand.UpdateUserController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiUser.PUT("/update/username/:id", hand.ChangeUsernameController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiUser.PUT("/update/password/:id", hand.ChangePasswordController, middleware.JWT([]byte(conf.JWT_KEY)))

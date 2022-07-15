@@ -43,19 +43,42 @@ func (r *RepositoryMysqlLayer) GetInvoicesPagination(pagination model.Pagination
 	queryBuilder := r.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
 	res := queryBuilder.Model(&model.Invoice{}).Where(invoice).Find(&invoice)
 	if res.RowsAffected < 1 {
-		err = fmt.Errorf("not found")
+		invoice = nil
 	}
 
 	return
 }
 
-func (r *RepositoryMysqlLayer) GetInvoicesByPaymentStatus(status int) (invoice []model.Invoice, err error) {
-	res := r.DB.Where("id_payment_status = ?", status).Find(&invoice)
+func (r *RepositoryMysqlLayer) GetTotalPagesPagination() (total int, err error) {
+	var count int64
+	invoices := []model.Invoice{}
+
+	res := r.DB.Model(&invoices).Count(&count)
 	if res.RowsAffected < 1 {
-		err = fmt.Errorf("status not found")
+		err = fmt.Errorf("not found")
+	}
+
+	total = int(count)
+	return
+}
+
+func (r *RepositoryMysqlLayer) GetInvoicesByPaymentStatus(status int, pagination model.Pagination) (invoice []model.Invoice) {
+	offset := (pagination.Page - 1) * pagination.Limit
+	queryBuilder := r.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	res := queryBuilder.Model(&[]model.Invoice{}).Where("id_payment_status = ?", status).Find(&invoice)
+	if res.RowsAffected < 1 {
+		invoice = nil
 	}
 
 	return
+	// offset := (pagination.Page - 1) * pagination.Limit
+	// queryBuilder := r.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	// res := queryBuilder.Model(&[]model.Invoice{}).Where("id_payment_status = ?", status).Find(&invoice)
+	// if res.RowsAffected < 1 {
+	// 	invoice = nil
+	// }
+
+	// return
 }
 
 func (r *RepositoryMysqlLayer) GetInvoicesByNameCustomer(name string) (invoice []model.Invoice, err error) {
