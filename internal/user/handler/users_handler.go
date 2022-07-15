@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"Back-end/helper"
 	"Back-end/internal/user/adapter"
 	"Back-end/internal/user/model"
 
@@ -52,6 +53,39 @@ func (ce *EchoUserController) GetUserController(c echo.Context) error {
 	}
 
 	return c.JSONPretty(http.StatusOK, user, " ")
+}
+
+func (ce *EchoUserController) GetUserByTokenController(c echo.Context) error {
+	type Input struct {
+		Token string `json:"token" form:"token"`
+	}
+	input := Input{}
+	c.Bind(&input)
+
+	result, err := helper.ExtractToken(input.Token)
+	if !err {
+		return c.JSON(http.StatusExpectationFailed, map[string]interface{}{
+			"message": "no token",
+		})
+	}
+	return c.JSONPretty(http.StatusOK, result, " ")
+
+	// token := c.Get("token").(*jwt.Token)
+	// var result int
+
+	// if token != nil && token.Valid {
+	// 	claims := token.Claims.(jwt.MapClaims)
+	// 	ID := claims["id"]
+
+	// 	switch ID.(type) {
+	// 	case float64:
+	// 		result = int(ID.(float64))
+	// 	default:
+	// 		result = ID.(int)
+	// 	}
+	// }
+
+	// return c.JSONPretty(http.StatusOK, result, " ")
 }
 
 // UpdateUserController godoc

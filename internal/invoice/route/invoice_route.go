@@ -27,7 +27,8 @@ func RegisterInvoiceGroupAPI(e *echo.Echo, conf config.Config) {
 	apiInvoice.GET("/:id", hand.GetInvoiceController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiInvoice.PUT("/:id", hand.UpdateInvoiceController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiInvoice.DELETE("/:id", hand.DeleteInvoiceController, middleware.JWT([]byte(conf.JWT_KEY)))
-	apiInvoice.GET("/status/:id", hand.GetInvoicesByPaymentStatusController, middleware.JWT([]byte(conf.JWT_KEY)))
+	apiInvoice.POST("/status/:id", hand.GetInvoicesByPaymentStatusController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiInvoice.POST("/search", hand.GetInvoicesByNameCustomerController, middleware.JWT([]byte(conf.JWT_KEY)))
 	apiInvoice.POST("/pagination", hand.GetInvoicesPaginationController, middleware.JWT([]byte(conf.JWT_KEY)))
+	apiInvoice.GET("/pagination/total", hand.GetTotalPagesPaginationController)
 }
