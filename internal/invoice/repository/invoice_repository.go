@@ -43,7 +43,7 @@ func (r *RepositoryMysqlLayer) GetInvoicesPagination(pagination model.Pagination
 	queryBuilder := r.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
 	res := queryBuilder.Model(&model.Invoice{}).Where(invoice).Find(&invoice)
 	if res.RowsAffected < 1 {
-		invoice = nil
+		invoice = []model.Invoice{}
 	}
 
 	return
@@ -67,18 +67,10 @@ func (r *RepositoryMysqlLayer) GetInvoicesByPaymentStatus(status int, pagination
 	queryBuilder := r.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
 	res := queryBuilder.Model(&[]model.Invoice{}).Where("id_payment_status = ?", status).Find(&invoice)
 	if res.RowsAffected < 1 {
-		invoice = nil
+		invoice = []model.Invoice{}
 	}
 
 	return
-	// offset := (pagination.Page - 1) * pagination.Limit
-	// queryBuilder := r.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
-	// res := queryBuilder.Model(&[]model.Invoice{}).Where("id_payment_status = ?", status).Find(&invoice)
-	// if res.RowsAffected < 1 {
-	// 	invoice = nil
-	// }
-
-	// return
 }
 
 func (r *RepositoryMysqlLayer) GetInvoicesByNameCustomer(name string) (invoice []model.Invoice, err error) {
