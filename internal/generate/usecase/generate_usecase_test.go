@@ -80,7 +80,7 @@ func TestGenerateInvoiceService(t *testing.T) {
 	}
 
 	repo := mocks.MockGenerateRepository{}
-	data := []int{1, 2, 3, 4}
+	data := []int{1}
 
 	t.Run("Success", func(t *testing.T) {
 		repo.On("GetInvoices", mock.Anything).Return(invoice, item, nil).Once()

@@ -49,7 +49,7 @@ func (ce *EchoUploadImageController) UploadImageController(c echo.Context) error
 	defer src.Close()
 
 	// Destination
-	dst, err := os.Create(filepath.Join("storage/", filepath.Base(file.Filename)))
+	dst, err := os.Create(filepath.Join("public/", filepath.Base(file.Filename)))
 	if err != nil {
 		return err
 	}
@@ -150,7 +150,7 @@ func (ce *EchoUploadImageController) UpdateImageController(c echo.Context) error
 	defer src.Close()
 
 	// Destination
-	dst, err := os.Create(filepath.Join("storage/", filepath.Base(file.Filename)))
+	dst, err := os.Create(filepath.Join("public/", filepath.Base(file.Filename)))
 	if err != nil {
 		return err
 	}
