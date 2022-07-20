@@ -1,0 +1,45 @@
+name: Continuous Deployment
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker:
+    name: Docker Deployment
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setu Up QEMU
+      uses: docker/setup-qemu-action@v1
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    - name: Build and Push
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: mdrahano12/generate-invoices:1.0
+    
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+          docker stop generate-invoices
+          docker container rm generate-invoices
+          docker rmi mdrahano12/generate-invoices:0.0
+          docker pull mdrahano12/generate-invoices:1.0
+          docker run -dp 80:8888 --name generate-invoices --detach mdrahano12/generate-invoices:1.0

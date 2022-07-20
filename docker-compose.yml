@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  backend-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: generate_invoices
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:8888"
+    networks:
+      - invoices-network
+  mysql:
+    image: mysql:latest
+    container_name: generate_invoice_database_mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: generate_invoices 
+      # MYSQL_USER: root
+      # MYSQL_PASSWORD: root
+    volumes:
+      - invoices-data:/var/lib/mysql
+      # - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - invoices-network
+
+networks:
+  invoices-network:
+    driver: bridge
+
+volumes:
+  invoices-data:
+    driver: local
