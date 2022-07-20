@@ -208,26 +208,29 @@ func TestGetInovicesByPaymentStatusService(t *testing.T) {
 			Due_Date:     time.Now(),
 		},
 	}
+	page := model.Pagination{
+		Page: 1,
+	}
 	status := 1
 
 	t.Run("Success", func(t *testing.T) {
 		repo.On("GetInvoicesByPaymentStatus", mock.Anything).Return(data, nil).Once()
 
 		svc := usecase.NewServiceInvoice(&repo, config.Config{})
-		invoice, err := svc.GetInovicesByPaymentStatusService(status)
+		invoice := svc.GetInovicesByPaymentStatusService(status, page)
 
 		assert.Equal(t, data, invoice)
-		assert.NoError(t, err)
+		// assert.NoError(t, err)
 	})
 
 	t.Run("Failed", func(t *testing.T) {
 		repo.On("GetInvoicesByPaymentStatus", mock.Anything).Return(data, errors.New("Failed Get Invoices By Payment Status")).Once()
 
 		svc := usecase.NewServiceInvoice(&repo, config.Config{})
-		invoice, err := svc.GetInovicesByPaymentStatusService(status)
+		invoice := svc.GetInovicesByPaymentStatusService(status, page)
 
 		assert.Equal(t, data, invoice)
-		assert.Error(t, err)
+		// assert.Error(t, err)
 	})
 }
 

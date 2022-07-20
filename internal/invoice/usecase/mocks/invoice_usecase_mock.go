@@ -74,19 +74,33 @@ func (r *MockInvoiceRepository) GetInvoicesPagination(pagination model.Paginatio
 	return
 }
 
-func (r *MockInvoiceRepository) GetInvoicesByPaymentStatus(status int) (invoice []model.Invoice, err error) {
-	ret := r.Called(status)
+func (r *MockInvoiceRepository) GetTotalPagesPagination() (int, error) {
+	ret := r.Called()
 
-	if res, ok := ret.Get(0).(func(int) []model.Invoice); ok {
-		invoice = res(status)
+	var total int
+	if res, ok := ret.Get(0).(func() int); ok {
+		total = res()
 	} else {
-		invoice = ret.Get(0).([]model.Invoice)
+		total = ret.Get(0).(int)
 	}
 
-	if res, ok := ret.Get(1).(func(int) error); ok {
-		err = res(status)
+	var err error
+	if res, ok := ret.Get(0).(func() error); ok {
+		err = res()
 	} else {
 		err = ret.Error(1)
+	}
+
+	return total, err
+}
+
+func (r *MockInvoiceRepository) GetInvoicesByPaymentStatus(status int, pagination model.Pagination) (invoice []model.Invoice) {
+	ret := r.Called(status, pagination)
+
+	if res, ok := ret.Get(0).(func(int, model.Pagination) []model.Invoice); ok {
+		invoice = res(status, pagination)
+	} else {
+		invoice = ret.Get(0).([]model.Invoice)
 	}
 
 	return

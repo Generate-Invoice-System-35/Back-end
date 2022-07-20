@@ -130,9 +130,12 @@ func TestGetInvoicesByPaymentStatus(t *testing.T) {
 			AddRow(1, 1, "INV/2022/0001", "name testing 1", "emailtesting1@gmail.com", "081234567891", "address testing 1", "1-1").
 			AddRow(2, 1, "INV/2022/0002", "name testing 2", "emailtesting2@gmail.com", "081234567892", "address testing 2", "2-2"))
 
-	res, err := repo.GetInvoicesByPaymentStatus(1)
+	data := model.Pagination{
+		Page: 1,
+	}
+	res := repo.GetInvoicesByPaymentStatus(1, data)
 	assert.Equal(t, res[0].Number, "INV/2022/0001")
-	assert.NoError(t, err)
+	// assert.NoError(t, err)
 	assert.True(t, true)
 }
 

@@ -74,19 +74,33 @@ func (r *MockInvoiceService) GetInvoicesPaginationService(pagination model.Pagin
 	return invoices, err
 }
 
-func (r *MockInvoiceService) GetInovicesByPaymentStatusService(status int) (invoice []model.Invoice, err error) {
-	ret := r.Called(status)
+func (r *MockInvoiceService) GetTotalPagesPaginationService() (int, error) {
+	ret := r.Called()
 
-	if res, ok := ret.Get(0).(func(int) []model.Invoice); ok {
-		invoice = res(status)
+	var total int
+	if res, ok := ret.Get(0).(func() int); ok {
+		total = res()
 	} else {
-		invoice = ret.Get(0).([]model.Invoice)
+		total = ret.Get(0).(int)
 	}
 
-	if res, ok := ret.Get(1).(func(int) error); ok {
-		err = res(status)
+	var err error
+	if res, ok := ret.Get(1).(func() error); ok {
+		err = res()
 	} else {
 		err = ret.Error(1)
+	}
+
+	return total, err
+}
+
+func (r *MockInvoiceService) GetInovicesByPaymentStatusService(status int, pagination model.Pagination) (invoice []model.Invoice) {
+	ret := r.Called(status, pagination)
+
+	if res, ok := ret.Get(0).(func(int, model.Pagination) []model.Invoice); ok {
+		invoice = res(status, pagination)
+	} else {
+		invoice = ret.Get(0).([]model.Invoice)
 	}
 
 	return
