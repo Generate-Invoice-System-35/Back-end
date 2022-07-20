@@ -103,7 +103,6 @@ func (s *serviceGenerate) GenerateInvoiceService(ids []int) error {
 		/* <========== CREATE INVOICE PAYMENT ==========> */
 		inv, invItem, errRepo := s.repo.GetInvoices(ids[i])
 		if errRepo != nil {
-			log.Print(errRepo)
 			return errRepo
 		}
 

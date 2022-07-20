@@ -42,20 +42,20 @@ func (ce *EchoSendCustomerController) SendEmailController(c echo.Context) error 
 	})
 }
 
-func (ce *EchoSendCustomerController) SendWhatsappController(c echo.Context) error {
-	message := model.SendCustomer{}
-	c.Bind(&message)
+// func (ce *EchoSendCustomerController) SendWhatsappController(c echo.Context) error {
+// 	message := model.SendCustomer{}
+// 	c.Bind(&message)
 
-	err := ce.Service.SendWhatsappService(message)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"message": "internal server error",
-			"error":   err,
-		})
-	}
+// 	err := ce.Service.SendWhatsappService(message)
+// 	if err != nil {
+// 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+// 			"message": "internal server error",
+// 			"error":   err,
+// 		})
+// 	}
 
-	return c.JSON(http.StatusCreated, map[string]interface{}{
-		"message": "success",
-		"send":    message,
-	})
-}
+// 	return c.JSON(http.StatusCreated, map[string]interface{}{
+// 		"message": "success",
+// 		"send":    message,
+// 	})
+// }

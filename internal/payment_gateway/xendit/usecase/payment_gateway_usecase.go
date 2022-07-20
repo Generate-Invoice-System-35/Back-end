@@ -25,7 +25,6 @@ type servicePaymentGateway struct {
 func (s *servicePaymentGateway) CreateXenditPaymentInvoiceService(id int) (*xendit.Invoice, error) {
 	inv, invItem, errRepo := s.repo.GetInvoices(id)
 	if errRepo != nil {
-		log.Print(errRepo)
 		return nil, errRepo
 	}
 

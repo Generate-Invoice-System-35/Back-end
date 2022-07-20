@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -40,7 +39,7 @@ func (ce *EchoPaymentGatewayController) CreateXenditPaymentInvoiceController(c e
 		})
 	}
 
-	return c.JSONPretty(http.StatusOK, resp, " ")
+	return c.JSONPretty(http.StatusCreated, resp, " ")
 }
 
 // GetXenditPaymentInvoiceController godoc
@@ -132,7 +131,6 @@ func (ce *EchoPaymentGatewayController) ExpireXenditPaymentInvoiceController(c e
 func (ce *EchoPaymentGatewayController) CallbackXenditPaymentInvoiceController(c echo.Context) error {
 	invoiceCallback := model.CallbackInvoice{}
 	c.Bind(&invoiceCallback)
-	fmt.Println("Invoice Callback : ", invoiceCallback)
 
 	err := ce.Service.CallbackXenditPaymentInvoiceService(invoiceCallback)
 	if err != nil {

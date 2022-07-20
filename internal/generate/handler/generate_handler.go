@@ -96,7 +96,7 @@ func (ce *EchoUploadCSVController) GenerateInvoicesController(c echo.Context) er
 		})
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
+	return c.JSON(http.StatusCreated, map[string]interface{}{
 		"message": "generate invoices success",
 	})
 }

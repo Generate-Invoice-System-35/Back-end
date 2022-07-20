@@ -9,9 +9,6 @@ import (
 	"Back-end/config"
 	"Back-end/internal/send_customer/adapter"
 	"Back-end/internal/send_customer/model"
-
-	twilio "github.com/twilio/twilio-go"
-	openapi "github.com/twilio/twilio-go/rest/api/v2010"
 )
 
 type serviceSendCustomer struct {
@@ -53,23 +50,23 @@ func (s *serviceSendCustomer) SendEmailService(msg model.SendCustomer) error {
 	return s.repo.SendEmail(msg)
 }
 
-func (s *serviceSendCustomer) SendWhatsappService(msg model.SendCustomer) error {
-	client := twilio.NewRestClient()
+// func (s *serviceSendCustomer) SendWhatsappService(msg model.SendCustomer) error {
+// 	client := twilio.NewRestClient()
 
-	params := &openapi.CreateMessageParams{}
-	params.SetTo("whatsapp:+62" + msg.To)
-	params.SetFrom("whatsapp:+14155238886")
-	params.SetBody(msg.Body)
+// 	params := &openapi.CreateMessageParams{}
+// 	params.SetTo("whatsapp:+62" + msg.To)
+// 	params.SetFrom("whatsapp:+14155238886")
+// 	params.SetBody(msg.Body)
 
-	_, err := client.Api.CreateMessage(params)
-	if err != nil {
-		fmt.Println(err.Error())
-	} else {
-		log.Println("Message sent successfully!")
-	}
+// 	_, err := client.Api.CreateMessage(params)
+// 	if err != nil {
+// 		fmt.Println(err.Error())
+// 	} else {
+// 		log.Println("Message sent successfully!")
+// 	}
 
-	return s.repo.SendWhatsapp(msg)
-}
+// 	return s.repo.SendWhatsapp(msg)
+// }
 
 func NewServiceSendCustomer(repo adapter.AdapterSendCustomerRepository, c config.Config) adapter.AdapterSendCustomerService {
 	return &serviceSendCustomer{
