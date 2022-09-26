@@ -30,7 +30,7 @@ func InitConfig() Config {
 		DB_PASSWORD:    GetOrDefault("DB_PASSWORD", "35GenerateInvoices"),
 		DB_NAME:        GetOrDefault("DB_NAME", "generate_invoices"),
 		DB_PORT:        GetOrDefault("DB_PORT", "3306"),
-		DB_HOST:        GetOrDefault("DB_HOST", "18.144.8.44"),
+		DB_HOST:        GetOrDefault("DB_HOST", "127.0.0.1"),
 		JWT_KEY:        GetOrDefault("JWT_KEY", "AlphaWolf"),
 	}
 	return ConfigGlobal
