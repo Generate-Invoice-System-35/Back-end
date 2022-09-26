@@ -7,7 +7,7 @@ require (
 	github.com/swaggo/swag v1.8.2
 	github.com/xendit/xendit-go v1.0.8
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
-	gorm.io/gorm v1.23.5
+	gorm.io/gorm v1.23.10
 )
 
 require (
